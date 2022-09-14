@@ -1,7 +1,16 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBorderAll, faTableCells } from "@fortawesome/free-solid-svg-icons";
+import * as layouts from "@/css/layouts.module.scss";
+
 
 const Index = () => {
   return <>
-    Hello Index!
+    <div className={layouts.navigator}>
+      <ul>
+        <li><FontAwesomeIcon icon={faBorderAll} fontSize="32px"/></li>
+        <li><FontAwesomeIcon icon={faTableCells} fontSize="32px" /></li>
+      </ul>
+    </div>
   </>
 }
 

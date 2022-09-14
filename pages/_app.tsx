@@ -5,11 +5,13 @@ import Head from "next/head";
 import "@/css/styles.scss"
 
 const App: NextPage<AppProps> = (props: AppProps) => {
+  const { Component, pageProps } = props
+
   return <>
     <Head>
       <title>{process.env.NEXT_PUBLIC_WEB_TITLE}</title>
     </Head>
-    <h1>Hello World!</h1>
+    <Component {...pageProps} />
   </>
 }
 

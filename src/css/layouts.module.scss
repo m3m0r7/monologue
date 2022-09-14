@@ -1,3 +1,14 @@
 .navigator {
   padding: 20px;
+  display: flex;
+  justify-content: right;
+  ul {
+    display: flex;
+    list-style: none;
+    li {
+      margin-left: 12px;
+      color: #4F4F4F;
+      cursor: pointer;
+    }
+  }
 }

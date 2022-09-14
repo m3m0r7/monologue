@@ -7,8 +7,12 @@
     list-style: none;
     li {
       margin-left: 12px;
-      color: #4F4F4F;
+      color: #2F2F2F;
       cursor: pointer;
+      transition: color 0.2s;
+      &:hover {
+        color: #4F4F4F;
+      }
     }
   }
 }

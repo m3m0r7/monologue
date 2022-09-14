@@ -2,6 +2,8 @@ import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
+import "@/css/styles.scss"
+
 const App: NextPage<AppProps> = (props: AppProps) => {
   return <>
     <Head>

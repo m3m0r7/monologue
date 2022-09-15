@@ -23,11 +23,17 @@ const Index = () => {
         </React.Fragment>
       }) }
     </div>
-    <div className={layouts.blogContainer}>
+    <div className={`${layouts.blogContainer} hidden`}>
       <div className={layouts.blogBody}>
         <div className={layouts.blogEyecatch} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }}>
-          タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル
+          <div className={layouts.blogTitleInEyecatch}>
+            タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル
+          </div>
+          <div className={layouts.blogClose}>
+            <i className={`fa-solid fa-close`}></i>
+          </div>
         </div>
+        <div className={layouts.divisor}></div>
         <div className={layouts.blogContents}>
           <div className={layouts.blogDateTime}>2022-02-01</div>
           <div className={layouts.blogText}>

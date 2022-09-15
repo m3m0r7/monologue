@@ -7,12 +7,23 @@
     list-style: none;
     li {
       margin-left: 12px;
-      color: #2F2F2F;
       cursor: pointer;
-      transition: color 0.2s;
-      &:hover {
-        color: #4F4F4F;
+      i {
+        font-size: 32px;
       }
     }
+  }
+}
+
+.faGradient {
+  opacity: 0.5;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  color: transparent;
+  background: rgb(181,108,140);
+  background: linear-gradient(90deg, rgba(181,108,140,1) 0%, rgba(212,15,182,1) 35%, rgba(255,0,71,1) 100%);
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 1;
   }
 }

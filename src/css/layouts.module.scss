@@ -1,12 +1,12 @@
 .navigator {
-  padding: 20px;
+  padding: 40px;
   display: flex;
   justify-content: right;
   ul {
     display: flex;
     list-style: none;
     li {
-      margin-left: 12px;
+      margin-left: 24px;
       cursor: pointer;
       i {
         font-size: 32px;
@@ -16,7 +16,7 @@
 }
 
 .faGradient {
-  opacity: 0.5;
+  opacity: 0.7;
   background-clip: text !important;
   -webkit-background-clip: text !important;
   color: transparent;

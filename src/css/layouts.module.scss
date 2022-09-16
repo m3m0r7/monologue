@@ -71,7 +71,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: minmax(200px, auto);
-  grid-gap: 8px;
+  grid-gap: 4px;
 }
 
 .galleryItem {
@@ -144,7 +144,7 @@
 }
 
 
-.blogContainer {
+.entryContainer {
   position: fixed;
   left: 0;
   top: 0;
@@ -158,13 +158,12 @@
   transition: opacity 0.2s, z-index 0.2s;
   opacity: 1;
 
-  .blogClose {
-    background-color: rgba(0, 0, 0, 0.5) ;
+  .entryClose {
     width: 48px;
     height: 48px;
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 10px;
+    top: -50px;
     color: #FFFFFF;
     font-size: 24px;
     text-align: center;
@@ -172,27 +171,27 @@
     border-radius: 50%;
     cursor: pointer;
   }
-  .blogBody {
+  .entryBody {
     box-sizing: border-box;
     background: #FFFFFF;
     width: 80%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
     border-radius: 2px;
   }
-  .blogDateTime {
+  .entryDateTime {
     font-size: 32px;
   }
-  .blogContents {
+  .entryContents {
     padding: 80px;
     font-size: 14px;
   }
-  .blogEyecatch {
+  .entryEyecatch {
     height: 300px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50% 50% ;
     position: relative;
-    .blogTitleInEyecatch {
+    .entryTitleInEyecatch {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -203,7 +202,7 @@
       padding: 0 80px;
     }
   }
-  .blogText {
+  .entryText {
     margin-top: 20px;
     color: #666666;
   }
@@ -315,15 +314,15 @@
   }
 }
 
-.blogPrev {
+.entryPrev {
   margin-right: 20px;
 }
 
-.blogNext {
+.entryNext {
   margin-left: 20px;
 }
 
-.blogPrev, .blogNext {
+.entryPrev, .entryNext {
   font-weight: bold;
   color: #FFFFFF;
   font-size: 64px;
@@ -332,5 +331,44 @@
   &.inactive {
     color: #333333;
     cursor: not-allowed;
+  }
+}
+
+.entryTags {
+  display: flex;
+  margin-left: -14px;
+  margin-top: 14px;
+  li {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #FFFFFF;
+    padding: 4px 8px;
+    margin-left: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  }
+}
+
+.entryEyecatchExpand {
+  font-size: 24px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #FFFFFF;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 4px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.3);
   }
 }

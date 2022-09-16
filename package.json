@@ -9,17 +9,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/m3m0r7/weblog-picture-gallery.git"
+    "url": "git+https://github.com/m3m0r7/weentry-picture-gallery.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/m3m0r7/weblog-picture-gallery/issues"
+    "url": "https://github.com/m3m0r7/weentry-picture-gallery/issues"
   },
-  "homepage": "https://github.com/m3m0r7/weblog-picture-gallery#readme",
+  "homepage": "https://github.com/m3m0r7/weentry-picture-gallery#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.0",
     "@types/node": "^18.7.18",
+    "dayjs": "^1.11.5",
     "env-cmd": "^10.1.0",
     "next": "^12.3.0",
     "sass": "^1.54.9",

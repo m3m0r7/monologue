@@ -1,14 +1,27 @@
 import * as layouts from "@/css/layouts.module.scss";
 import React, { useState } from "react";
+import Entry from "@/components/Entry/Entry";
 
 const Index = () => {
   const [isOpened, setIsOpened] = useState(false);
-  const openBlogDialog = () => {
+  const openEntryDialog = () => {
     setIsOpened(true);
   };
-  const closeBlogDialog = () => {
+  const closeEntryDialog = () => {
     setIsOpened(false);
   };
+
+  // dummy entry
+  const entry: Entry = {
+    eyecatch: '/images/dummy/cat.jpg',
+    title: 'タイトルタイトルタイトルタイトルタイトルタイトル',
+    date: '2022-09-01',
+    text: "#markdown\n*test*\n_test_",
+    tags: [
+      { name: "ねこ" },
+      { name: "ノスタルジー" }
+    ],
+  }
 
   return <>
     <div className={layouts.navigator}>
@@ -40,13 +53,13 @@ const Index = () => {
     <div className={layouts.galleriesContainer}>
       <div className={layouts.galleryDateOfMonth}>September, 2022</div>
       <div className={layouts.galleries}>
-        {  (new Array(100)).fill(undefined, 0, 100).map((_, key) => {
+        {  (new Array(10)).fill(undefined, 0, 100).map((_, key) => {
           return <React.Fragment key={key}>
-            <div className={`${layouts.galleryItem}`} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }} onClick={openBlogDialog}>
+            <div className={`${layouts.galleryItem}`} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }} onClick={openEntryDialog}>
               <div className={layouts.galleryPostDatetime}>2022-02-01</div>
               <div className={layouts.galleryTitle}>タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル</div>
             </div>
-            <div className={layouts.galleryItem} style={{ backgroundImage: "url(/images/dummy/memory.png)" }} onClick={openBlogDialog}>
+            <div className={layouts.galleryItem} style={{ backgroundImage: "url(/images/dummy/memory.png)" }} onClick={openEntryDialog}>
               <div className={layouts.galleryPostDatetime}>2022-02-01</div>
               <div className={layouts.galleryTitle}>タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル</div>
             </div>
@@ -54,27 +67,12 @@ const Index = () => {
         }) }
       </div>
     </div>
-    <div className={`${layouts.blogContainer} ${isOpened ? '' : 'hidden'}`}>
-      <div className={`${layouts.blogPrev} ${layouts.inactive}`}><i className="fa-solid fa-chevron-left"></i></div>
-      <div className={layouts.blogBody}>
-        <div className={layouts.blogEyecatch} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }}>
-          <div className={layouts.blogTitleInEyecatch}>
-            タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル
-          </div>
-          <div className={layouts.blogClose} onClick={closeBlogDialog}>
-            <i className={`fa-solid fa-close`}></i>
-          </div>
-        </div>
-        <div className={layouts.divisor}></div>
-        <div className={layouts.blogContents}>
-          <div className={layouts.blogDateTime}>2022-02-01</div>
-          <div className={layouts.blogText}>
-            タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル
-          </div>
-        </div>
-      </div>
-      <div className={layouts.blogNext}><i className="fa-solid fa-chevron-right"></i></div>
-    </div>
+
+    <Entry isOpened={isOpened} onClose={closeEntryDialog} entry={entry} />
+
+    <footer>
+      &copy; {process.env.NEXT_PUBLIC_WEB_TITLE}
+    </footer>
   </>
 }
 

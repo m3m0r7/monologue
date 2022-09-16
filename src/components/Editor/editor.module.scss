@@ -18,3 +18,18 @@
     font-style: italic;
   }
 }
+
+.entryTextInput {
+  box-sizing: border-box;
+  width: 100%;
+  resize: none;
+  min-height: 300px;
+  outline: none;
+  border: none;
+
+  -ms-overflow-style: none;
+  -moz-scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

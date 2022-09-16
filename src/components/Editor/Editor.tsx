@@ -2,14 +2,16 @@ import React from "react";
 import * as editor from "./editor.module.scss"
 import * as entryStyle from "@/components/Entry/entry.module.scss";
 import dayjs from "dayjs";
-import EntryContents from "@/components/Entry/EntryContents";
-import * as eyecatchStyle from "@/components/Entry/eyecatch.module.scss";
-import { calculateBehindDays } from "@/helpers/calculator";
 
 type Props = {
 }
 
 const Editor: React.FC<Props> = () => {
+  const autoHeight = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    e.currentTarget.style.height = 'auto';
+    e.currentTarget.style.height = e.currentTarget.scrollHeight + 'px';
+  }
+
   return <div className={`${entryStyle.entryContainer}`}>
 
       <div className={entryStyle.entryBody}>
@@ -27,8 +29,14 @@ const Editor: React.FC<Props> = () => {
           <ul className={entryStyle.entryTags}>
             <li>#Choose a tag</li>
           </ul>
-          <div className={entryStyle.entryText}>
 
+          <ul>
+            <li>Plain Text</li>
+            <li>Preview</li>
+          </ul>
+
+          <div className={entryStyle.entryText}>
+            <textarea className={editor.entryTextInput} placeholder="Enter text..." onKeyUp={autoHeight}></textarea>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import * as entryStyle from "./entry.module.scss";
-import React, { PropsWithChildren } from "react";
+import * as eyecatchStyle from "./eyecatch.module.scss";
+import React, { useState } from "react";
 import { Entry } from "@/@types/Entry";
 import dayjs from "dayjs";
 
@@ -10,11 +11,17 @@ type Props = {
 };
 
 const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
-  return <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
-      <div className={`${entryStyle.entryPrev} ${entryStyle.inactive}`}><i className="fa-solid fa-chevron-left"></i></div>
+  const [ isExpandedEyecatch, setIsExpandedEyecatch ] = useState(false);
+  return <>
+    <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
+      <div className={`${entryStyle.entryPrev} ${entryStyle.inactive}`}>
+        <i className="fa-solid fa-chevron-left"></i>
+      </div>
       <div className={entryStyle.entryBody}>
         <div className={entryStyle.entryEyecatch} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
-          <div className={entryStyle.entryEyecatchExpand}><i className="fa-solid fa-expand"></i></div>
+          <div className={entryStyle.entryEyecatchExpand} onClick={() => setIsExpandedEyecatch(true)}>
+            <i className="fa-solid fa-expand"></i>
+          </div>
           <div className={entryStyle.entryTitleInEyecatch}>
             {entry.title}
           </div>
@@ -35,6 +42,7 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
       </div>
       <div className={entryStyle.entryNext}><i className="fa-solid fa-chevron-right"></i></div>
     </div>
+  </>
 }
 
 export default Entry;

@@ -11,7 +11,7 @@ const Index = () => {
   const entry: EntryType = {
     eyecatch: '/images/dummy/cat.jpg',
     title: 'タイトルタイトルタイトルタイトルタイトルタイトル',
-    date: '2022-09-01',
+    date: '2022-09-05',
     text: "#markdown\n*test*\n_test_",
     tags: [
       { name: "ねこ" },
@@ -21,7 +21,7 @@ const Index = () => {
 
   return <>
     <Header />
-    <GalleryContainer>
+    <GalleryContainer date="2022-09">
       {  (new Array(10)).fill(undefined, 0, 100).map((_, key) => <GalleryItemWithEntry key={key} entry={entry} /> )}
     </GalleryContainer>
     <footer>

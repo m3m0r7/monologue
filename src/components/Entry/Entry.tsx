@@ -42,7 +42,7 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
         </div>
       </div>
       <div className={entryStyle.entryNext}><i className="fa-solid fa-chevron-right"></i></div>
-      <div className={eyecatchStyle.eyecatchContainer}>
+      <div className={`${eyecatchStyle.eyecatchContainer} ${isExpandedEyecatch ? '' : 'hidden'}`} onClick={() => setIsExpandedEyecatch(false)}>
         <div className={eyecatchStyle.eyecatchContents} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
           <div className={eyecatchStyle.eyecatchInfo}>
             <ul className={entryStyle.entryTags}>

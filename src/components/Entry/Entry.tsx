@@ -3,6 +3,7 @@ import * as eyecatchStyle from "./eyecatch.module.scss";
 import React, { useState } from "react";
 import { Entry } from "@/@types/Entry";
 import dayjs from "dayjs";
+import { calculateBehindDays } from "@/helpers/calculator";
 
 type Props = {
   isOpened: boolean,
@@ -41,6 +42,16 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
         </div>
       </div>
       <div className={entryStyle.entryNext}><i className="fa-solid fa-chevron-right"></i></div>
+      <div className={eyecatchStyle.eyecatchContainer}>
+        <div className={eyecatchStyle.eyecatchContents} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
+          <div className={eyecatchStyle.eyecatchInfo}>
+            <ul className={entryStyle.entryTags}>
+              {entry.tags.map((tag, key) => <li key={key}>#{tag.name}</li>)}
+              <li>{calculateBehindDays(dayjs(), dayjs(entry.date))}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </>
 }

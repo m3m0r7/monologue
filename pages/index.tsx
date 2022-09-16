@@ -34,13 +34,11 @@ const Index = () => {
       <div className={layouts.galleries}>
         {  (new Array(100)).fill(undefined, 0, 100).map((_, key) => {
           return <React.Fragment key={key}>
-            <div className={layouts.galleryItem} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }}>
-              <div className={layouts.galleryPostAuthor}>めもりー</div>
+            <div className={`${layouts.galleryItem}`} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }}>
               <div className={layouts.galleryPostDatetime}>2022-02-01</div>
               <div className={layouts.galleryTitle}>タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル</div>
             </div>
             <div className={layouts.galleryItem} style={{ backgroundImage: "url(/images/dummy/memory.png)" }}>
-              <div className={layouts.galleryPostAuthor}>めもりー</div>
               <div className={layouts.galleryPostDatetime}>2022-02-01</div>
               <div className={layouts.galleryTitle}>タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル</div>
             </div>

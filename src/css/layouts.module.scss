@@ -103,6 +103,29 @@
       background-color: rgba(0, 0, 0, 0.8);
     }
   }
+
+  &:nth-child(1) {
+    grid-row: 1 / 4;
+    grid-column: 1 / 4;
+
+    .galleryTitle {
+      font-size: 32px;
+    }
+    .galleryPostAuthor, .galleryPostDatetime {
+      font-size: 32px;
+    }
+  }
+
+  &:nth-child(2) {
+    grid-row: 1 / 3;
+    grid-column: 4 / 6;
+    .galleryTitle {
+      font-size: 24px;
+    }
+    .galleryPostAuthor, .galleryPostDatetime {
+      font-size: 24px;
+    }
+  }
 }
 
 .galleryPostAuthor, .galleryPostDatetime {

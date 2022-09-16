@@ -3,7 +3,6 @@
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
   background-color: rgba(0, 0, 0, 0.8) ;
   display: flex;
   justify-content: center;
@@ -11,6 +10,7 @@
   z-index: 100;
   transition: opacity 0.2s, z-index 0.2s;
   opacity: 1;
+  box-sizing: border-box;
 
   .entryClose {
     width: 48px;
@@ -25,17 +25,21 @@
     border-radius: 50%;
     cursor: pointer;
   }
+
   .entryBody {
     box-sizing: border-box;
-    background: #FFFFFF;
     width: 80%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
     border-radius: 2px;
+    overflow: scroll;
+    height: calc(100vh - 100px);
+    padding-top: 100px;
   }
-  .entryDateTime {
+  .entryTitle {
     font-size: 32px;
   }
   .entryContents {
+    background: #FFFFFF;
     padding: 80px;
     font-size: 14px;
   }
@@ -87,6 +91,7 @@
   margin-left: -14px;
   margin-top: 14px;
   li {
+    font-size: 12px;
     background-color: rgba(0, 0, 0, 0.8);
     color: #FFFFFF;
     padding: 4px 8px;
@@ -124,4 +129,12 @@
 .divisor {
   height: 8px;
   background: linear-gradient(90deg, rgba(212,15,182,1) 35%, rgba(255,0,71,1) 100%);
+}
+
+.entryDateTime {
+  display: block;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #555555;
 }

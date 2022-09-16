@@ -5,6 +5,7 @@ import { Entry } from "@/@types/Entry";
 import dayjs from "dayjs";
 import { calculateBehindDays } from "@/helpers/calculator";
 import { useRouter } from "next/router";
+import EntryContents from "@/components/Entry/EntryContents";
 
 type Props = {
   isOpened: boolean,
@@ -49,7 +50,9 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
             {entry.tags.map((tag, key) => <li key={key}>#{tag.name}</li>)}
           </ul>
           <div className={entryStyle.entryText}>
-            {entry.text}
+            <EntryContents>
+              {entry.text ?? ''}
+            </EntryContents>
           </div>
         </div>
       </div>

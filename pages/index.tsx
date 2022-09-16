@@ -12,7 +12,34 @@ export default () => {
     eyecatch: '/images/dummy/cat.jpg',
     title: 'タイトルタイトルタイトルタイトルタイトルタイトル',
     date: '2022-09-05',
-    text: "#markdown\n*test*\n_test_",
+    text: `
+
+    A paragraph with *emphasis* and **strong importance**.
+
+> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
+
+* Lists
+* [ ] todo
+* [x] done
+
+A table:
+
+| a | b |
+| - | - |
+
+\`vvvv\`
+
+\`\`\`php
+<?php
+
+echo "Hello World!";
+\`\`\`
+
+**a** _b_
+
+![image](/images/icons/memory.png)
+
+    `,
     tags: [
       { name: "ねこ" },
       { name: "ノスタルジー" }

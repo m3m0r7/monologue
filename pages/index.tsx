@@ -4,9 +4,10 @@ import React from "react";
 const Index = () => {
   return <>
     <div className={layouts.navigator}>
-      <ul>
-        <li><a href="https://i.mem.ooo/" target="_blank"><i className={`fa-solid fa-user ${layouts.faGradient}`}></i></a></li>
-      </ul>
+      <div className={layouts.headerContainer}>
+        <div className={layouts.myIconContainer}><a className={layouts.myIcon} href="https://i.mem.ooo" target="_blank"></a></div>
+        <h1>{process.env.NEXT_PUBLIC_WEB_TITLE}</h1>
+      </div>
       <div className={layouts.actions}>
         <div className={layouts.actionSort}>
           <span className={layouts.actionSortLabel}>Sort</span> <div className={layouts.actionSortDirection}>Recently</div>

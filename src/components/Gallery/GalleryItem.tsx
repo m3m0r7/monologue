@@ -3,6 +3,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { Entry } from "@/@types/Entry";
 import { calculateBehindDays } from "@/helpers/calculator";
+import { useRouter } from "next/router";
 
 type Props = {
   onOpen: () => void;

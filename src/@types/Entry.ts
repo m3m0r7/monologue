@@ -6,6 +6,7 @@ export type Tag = {
 }
 
 export type Entry = {
+  id: string;
   title?: string;
   text?: string;
   eyecatch?: string;

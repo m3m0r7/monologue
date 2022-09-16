@@ -3,18 +3,23 @@ import { Entry as EntryType } from "@/@types/Entry";
 import GalleryItem from "@/components/Gallery/GalleryItem";
 import Entry from "@/components/Entry/Entry";
 import * as galleryStyle from "./gallery.module.scss";
+import { useRouter } from "next/router";
 
 type Props = {
   entry: EntryType;
 }
 
 const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
+  const router = useRouter();
+
   const [isOpened, setIsOpened] = useState(false);
   const openEntryDialog = () => {
     setIsOpened(true);
+    router.push(`#/monologue/${entry.id}`);
   };
   const closeEntryDialog = () => {
     setIsOpened(false);
+    router.push(`/`);
   };
 
   return <div className={galleryStyle.galleryItemContainer}>

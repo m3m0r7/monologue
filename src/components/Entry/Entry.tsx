@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Entry } from "@/@types/Entry";
 import dayjs from "dayjs";
 import { calculateBehindDays } from "@/helpers/calculator";
+import { useRouter } from "next/router";
 
 type Props = {
   isOpened: boolean,
@@ -12,7 +13,18 @@ type Props = {
 };
 
 const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
+  const router = useRouter();
   const [ isExpandedEyecatch, setIsExpandedEyecatch ] = useState(false);
+
+  const open = () => {
+    setIsExpandedEyecatch(true)
+    router.push(`#/monologue/${entry.id}/picture`);
+  };
+  const close = () => {
+    setIsExpandedEyecatch(false);
+    router.push(`#/monologue/${entry.id}`);
+  };
+
   return <>
     <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
       <div className={`${entryStyle.entryPrev} ${entryStyle.inactive}`}>
@@ -20,7 +32,7 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
       </div>
       <div className={entryStyle.entryBody}>
         <div className={entryStyle.entryEyecatch} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
-          <div className={entryStyle.entryEyecatchExpand} onClick={() => setIsExpandedEyecatch(true)}>
+          <div className={entryStyle.entryEyecatchExpand} onClick={open}>
             <i className="fa-solid fa-expand"></i>
           </div>
           <div className={entryStyle.entryTitleInEyecatch}>
@@ -32,7 +44,7 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
         </div>
         <div className={entryStyle.divisor}></div>
         <div className={entryStyle.entryContents}>
-          <div className={entryStyle.entryDateTime}>{dayjs(entry.date).format('YYYY-MM-DD')}</div>
+          <div className={entryStyle.entryDateTime}>{dayjs(entry.date).format('ddd MMMM DD, YYYY')}</div>
           <ul className={entryStyle.entryTags}>
             {entry.tags.map((tag, key) => <li key={key}>#{tag.name}</li>)}
           </ul>
@@ -42,7 +54,7 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
         </div>
       </div>
       <div className={entryStyle.entryNext}><i className="fa-solid fa-chevron-right"></i></div>
-      <div className={`${eyecatchStyle.eyecatchContainer} ${isExpandedEyecatch ? '' : 'hidden'}`} onClick={() => setIsExpandedEyecatch(false)}>
+      <div className={`${eyecatchStyle.eyecatchContainer} ${isExpandedEyecatch ? '' : 'hidden'}`} onClick={close}>
         <div className={eyecatchStyle.eyecatchContents} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
           <div className={eyecatchStyle.eyecatchInfo}>
             <ul className={entryStyle.entryTags}>

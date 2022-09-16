@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "@/components/Header/Header";
 import GalleryContainer from "@/components/Gallery/GalleryContainer";
-import GalleryItem from "@/components/Gallery/GalleryItem";
 import { Entry as EntryType } from "@/@types/Entry";
-import Entry from "@/components/Entry/Entry";
 import GalleryItemWithEntry from "@/components/Gallery/GalleryItemWithEntry";
 
-const Index = () => {
+export default () => {
+
   // dummy entry
   const entry: EntryType = {
+    id: '1234',
     eyecatch: '/images/dummy/cat.jpg',
     title: 'タイトルタイトルタイトルタイトルタイトルタイトル',
     date: '2022-09-05',
@@ -18,6 +18,8 @@ const Index = () => {
       { name: "ノスタルジー" }
     ],
   }
+
+
 
   return <>
     <Header />
@@ -29,5 +31,3 @@ const Index = () => {
     </footer>
   </>
 }
-
-export default Index

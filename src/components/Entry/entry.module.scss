@@ -35,6 +35,12 @@
     overflow: scroll;
     height: 100vh;
     padding-top: 100px;
+
+    -ms-overflow-style: none;
+    -moz-scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   .entryContents {
     background: #FFFFFF;

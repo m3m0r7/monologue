@@ -45,3 +45,12 @@ p {
   margin: 0;
   padding: 0;
 }
+
+a {
+  color: #e91e63;
+  transition: opacity 0.2s;
+  opacity: 1;
+  &:hover {
+    opacity: 0.5;
+  }
+}

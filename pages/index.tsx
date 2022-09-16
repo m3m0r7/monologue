@@ -1,7 +1,15 @@
 import * as layouts from "@/css/layouts.module.scss";
-import React from "react";
+import React, { useState } from "react";
 
 const Index = () => {
+  const [isOpened, setIsOpened] = useState(false);
+  const openBlogDialog = () => {
+    setIsOpened(true);
+  };
+  const closeBlogDialog = () => {
+    setIsOpened(false);
+  };
+
   return <>
     <div className={layouts.navigator}>
       <div className={layouts.headerContainer}>
@@ -34,11 +42,11 @@ const Index = () => {
       <div className={layouts.galleries}>
         {  (new Array(100)).fill(undefined, 0, 100).map((_, key) => {
           return <React.Fragment key={key}>
-            <div className={`${layouts.galleryItem}`} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }}>
+            <div className={`${layouts.galleryItem}`} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }} onClick={openBlogDialog}>
               <div className={layouts.galleryPostDatetime}>2022-02-01</div>
               <div className={layouts.galleryTitle}>タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル</div>
             </div>
-            <div className={layouts.galleryItem} style={{ backgroundImage: "url(/images/dummy/memory.png)" }}>
+            <div className={layouts.galleryItem} style={{ backgroundImage: "url(/images/dummy/memory.png)" }} onClick={openBlogDialog}>
               <div className={layouts.galleryPostDatetime}>2022-02-01</div>
               <div className={layouts.galleryTitle}>タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル</div>
             </div>
@@ -46,13 +54,13 @@ const Index = () => {
         }) }
       </div>
     </div>
-    <div className={`${layouts.blogContainer} hidden`}>
+    <div className={`${layouts.blogContainer} ${isOpened ? '' : 'hidden'}`}>
       <div className={layouts.blogBody}>
         <div className={layouts.blogEyecatch} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }}>
           <div className={layouts.blogTitleInEyecatch}>
             タイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトルタイトル
           </div>
-          <div className={layouts.blogClose}>
+          <div className={layouts.blogClose} onClick={closeBlogDialog}>
             <i className={`fa-solid fa-close`}></i>
           </div>
         </div>

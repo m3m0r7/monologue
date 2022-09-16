@@ -145,7 +145,7 @@
 
 
 .blogContainer {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -154,6 +154,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
+  transition: opacity 0.2s;
+  opacity: 1;
+
   .blogClose {
     background-color: rgba(0, 0, 0, 0.5) ;
     width: 48px;

@@ -15,6 +15,7 @@
   ul {
     display: flex;
     list-style: none;
+    margin-left: -24px;
     li {
       margin-left: 24px;
       cursor: pointer;
@@ -75,14 +76,21 @@
   }
 }
 
-.galleryPostDatetime {
+.galleryPostAuthor, .galleryPostDatetime {
   background-color: rgba(0, 0, 0, 0.6);
   color: #FFFFFF;
   padding: 4px 8px;
   position: absolute;
   right: 0;
   bottom: 0;
+  border-radius: 4px 0 0 0;
 }
+
+.galleryPostAuthor {
+  bottom: auto;
+  border-radius: 0 0 0 4px;
+}
+
 
 .blogContainer {
   position: absolute;
@@ -148,4 +156,55 @@
 .divisor {
   height: 8px;
   background: linear-gradient(90deg, rgba(212,15,182,1) 35%, rgba(255,0,71,1) 100%);
+}
+
+.galleriesContainer {
+  position: relative;
+  width: 100%;
+}
+
+.galleryDateOfMonth {
+  position: sticky;
+  font-weight: bold;
+  font-size: 24px;
+  color: #FFFFFF;
+  top: 0;
+  z-index: 1;
+  padding-left: 20px;
+  line-height: 48px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.actions {
+  color: #555555;
+  font-size: 14px;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: end;
+  .actionSort {
+    display: flex;
+    align-items: center;
+    .actionSortLabel {
+      color: #777777;
+      margin-right: 20px;
+    }
+    .actionSortDirection {
+      border: 1px solid transparent;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 2px;
+      transition: color 0.2s, border 0.2s, background-color 0.2s;
+      &:after {
+        font-family: 'Font Awesome 6 Free';
+        content: '\f0d7';
+        font-weight: 900;
+        margin-left: 10px;
+      }
+      &:hover {
+        background-color: #222222;
+        color: #777777;
+        border: 1px solid #555555;
+      }
+    }
+  }
 }

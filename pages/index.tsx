@@ -11,7 +11,16 @@ const Index = () => {
       <div className={layouts.actions}>
         <div className={layouts.actionContainer}>
           <div className={layouts.actionContainerLabel}>Sort</div>
-          <div className={layouts.actionContainerContents}>Recently</div>
+          <div className={layouts.actionContainerContents}>
+            <span>Recently</span>
+            <div className={layouts.actionContainerContentsSelection}>
+              <ul>
+                <li>Recently</li>
+                <li>Oldest</li>
+                <li>Popular</li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div className={layouts.actionContainer}>
           <div className={layouts.searchBoxContainer}>

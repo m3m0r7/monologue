@@ -1,4 +1,4 @@
-import * as galleryStyle from "./gallaery.module.scss";
+import * as galleryStyle from "./gallery.module.scss";
 import React, { FC, PropsWithChildren } from "react";
 import GalleryItem from "@/components/Gallery/GalleryItem";
 import { AppProps } from "next/app";

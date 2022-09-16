@@ -1,4 +1,4 @@
-import * as galleryStyle from "./gallaery.module.scss";
+import * as galleryStyle from "./gallery.module.scss";
 import React from "react";
 import dayjs from "dayjs";
 import { Entry } from "@/@types/Entry";

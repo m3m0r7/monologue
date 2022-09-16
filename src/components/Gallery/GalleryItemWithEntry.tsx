@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Entry as EntryType } from "@/@types/Entry";
 import GalleryItem from "@/components/Gallery/GalleryItem";
 import Entry from "@/components/Entry/Entry";
-import * as galleryStyle from "./gallaery.module.scss";
+import * as galleryStyle from "./gallery.module.scss";
 
 type Props = {
   entry: EntryType;

@@ -1,11 +1,12 @@
 import * as entryStyle from "./entry.module.scss";
 import * as eyecatchStyle from "./eyecatch.module.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Entry } from "@/@types/Entry";
 import dayjs from "dayjs";
 import { calculateBehindDays } from "@/helpers/calculator";
 import { useRouter } from "next/router";
 import EntryContents from "@/components/Entry/EntryContents";
+import { useHash } from "@/hooks/useHash";
 
 type Props = {
   isOpened: boolean,
@@ -15,7 +16,12 @@ type Props = {
 
 const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
   const router = useRouter();
+  const { isEyecatch } = useHash();
   const [ isExpandedEyecatch, setIsExpandedEyecatch ] = useState(false);
+
+  useEffect(() => {
+    setIsExpandedEyecatch(isEyecatch);
+  })
 
   const open = () => {
     setIsExpandedEyecatch(true)

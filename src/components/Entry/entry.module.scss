@@ -35,9 +35,6 @@
     height: calc(100vh - 100px);
     padding-top: 100px;
   }
-  .entryTitle {
-    font-size: 32px;
-  }
   .entryContents {
     background: #FFFFFF;
     padding: 80px;
@@ -49,16 +46,6 @@
     background-size: cover;
     background-position: 50% 50% ;
     position: relative;
-    .entryTitleInEyecatch {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      font-size: 32px;
-      text-shadow: 0 0 2px #FFFFFF, 0 0 2px #FFFFFF, 0 0 2px #FFFFFF, 0 0 2px #FFFFFF;
-      font-weight: bold;
-      padding: 0 80px;
-    }
   }
   .entryText {
     margin-top: 20px;
@@ -137,4 +124,8 @@
   margin-top: 0;
   margin-bottom: 12px;
   color: #555555;
+}
+
+.entryTitle {
+  font-size: 32px;
 }

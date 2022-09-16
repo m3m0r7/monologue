@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Entry as EntryType } from "@/@types/Entry";
 import GalleryItem from "@/components/Gallery/GalleryItem";
-import Entry from "../Entry/Entry";
+import Entry from "@/components/Entry/Entry";
+import * as galleryStyle from "./gallaery.module.scss";
 
 type Props = {
   entry: EntryType;
@@ -16,10 +17,10 @@ const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
     setIsOpened(false);
   };
 
-  return <>
+  return <div className={galleryStyle.galleryItemContainer}>
     <GalleryItem onOpen={openEntryDialog} entry={entry} />
     <Entry isOpened={isOpened} onClose={closeEntryDialog} entry={entry} />
-  </>
+  </div>
 }
 
 export default GalleryItemWithEntry;

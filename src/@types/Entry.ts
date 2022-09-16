@@ -12,4 +12,8 @@ export type Entry = {
   eyecatch?: string;
   date?: string;
   tags: Tag[],
+  pager: {
+    next?: string,
+    prev?: string,
+  },
 }

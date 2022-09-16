@@ -13,6 +13,9 @@ export default () => {
     eyecatch: '/images/dummy/cat.jpg',
     title: 'タイトルタイトルタイトルタイトルタイトルタイトル',
     date: '2022-09-05',
+    pager: {
+      next: '1235',
+    },
     text: `
 
     A paragraph with *emphasis* and **strong importance**.
@@ -49,7 +52,7 @@ echo "Hello World!";
 
   const entries = (new Array(10))
     .fill(undefined, 0, 100)
-    .map((_, key) => ({ ...basedEntry, id: `${parseInt(basedEntry.id) + key}` }));
+    .map((_, key) => ({ ...basedEntry, id: `${parseInt(basedEntry.id) + key}`, pager: { prev: `${parseInt(basedEntry.id) + key - 1}`, next: `${parseInt(basedEntry.id) + key + 1}` } }));
 
   return <>
     <Header />

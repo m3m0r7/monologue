@@ -25,9 +25,23 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
     router.push(`#/monologue/${entry.id}`);
   };
 
+  const prev = () => {
+    if (!entry.pager.prev) {
+      return;
+    }
+    router.push(`#/monologue/${entry.pager.prev}`);
+  }
+
+  const next = () => {
+    if (!entry.pager.next) {
+      return;
+    }
+    router.push(`#/monologue/${entry.pager.next}`);
+  }
+
   return <>
     <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
-      <div className={`${entryStyle.entryPrev} ${entryStyle.inactive}`}>
+      <div className={`${entryStyle.entryPrev} ${entry.pager.prev ? '' : entryStyle.inactive}`} onClick={prev}>
         <i className="fa-solid fa-chevron-left"></i>
       </div>
 
@@ -55,7 +69,10 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
         </div>
       </div>
 
-      <div className={entryStyle.entryNext}><i className="fa-solid fa-chevron-right"></i></div>
+      <div className={`${entryStyle.entryNext} ${entry.pager.next ? '' : entryStyle.inactive}`} onClick={next}>
+        <i className="fa-solid fa-chevron-right"></i>
+      </div>
+
       <div className={`${eyecatchStyle.eyecatchContainer} ${isOpenedEyecatch ? '' : 'hidden'}`} onClick={close}>
         <div className={eyecatchStyle.eyecatchContents} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
           <div className={eyecatchStyle.eyecatchInfo}>

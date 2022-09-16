@@ -237,13 +237,13 @@
         color: #777777;
         border: 1px solid #555555;
         .actionContainerContentsSelection {
-          opacity: 1;
+          display: block;
         }
       }
     }
 
     .actionContainerContentsSelection {
-      opacity: 0;
+      display: none;
       position: absolute;
       background: rgba(0, 0, 0, 0.8);
       color: #AAAAAA;

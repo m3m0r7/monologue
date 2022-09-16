@@ -2,7 +2,7 @@ import { Dayjs } from "dayjs";
 
 export type Tag = {
   name: string;
-  link: string;
+  link?: string;
 }
 
 export type Entry = {

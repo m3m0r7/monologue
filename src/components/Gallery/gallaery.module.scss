@@ -1,0 +1,93 @@
+
+.galleries {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(200px, auto);
+  grid-gap: 4px;
+}
+
+.galleryItem {
+  background: #222222;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  cursor: pointer;
+  position: relative;
+  transition: background-size 0.1s;
+  border-radius: 2px;
+
+  .galleryTitle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+    color: #FFFFFF;
+    padding: 20px;
+    font-size: 14px;
+  }
+  &:hover {
+    .galleryTitle {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  &:nth-child(1) {
+    grid-row: 1 / 4;
+    grid-column: 1 / 4;
+
+    .galleryTitle {
+      font-size: 32px;
+    }
+    .galleryPostAuthor, .galleryPostDatetime {
+      font-size: 32px;
+    }
+  }
+
+  &:nth-child(2) {
+    grid-row: 1 / 3;
+    grid-column: 4 / 6;
+    .galleryTitle {
+      font-size: 24px;
+    }
+    .galleryPostAuthor, .galleryPostDatetime {
+      font-size: 24px;
+    }
+  }
+}
+
+.galleryPostAuthor, .galleryPostDatetime {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
+  padding: 4px 8px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-radius: 4px 0 0 0;
+}
+
+.galleryPostAuthor {
+  bottom: auto;
+  border-radius: 0 0 0 4px;
+}
+
+.galleriesContainer {
+  position: relative;
+  width: 100%;
+}
+
+.galleryDateOfMonth {
+  position: sticky;
+  font-weight: bold;
+  font-size: 24px;
+  color: #FFFFFF;
+  top: 0;
+  z-index: 1;
+  padding-left: 20px;
+  line-height: 48px;
+  background-color: rgba(0, 0, 0, 0.5);
+}

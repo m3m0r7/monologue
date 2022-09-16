@@ -3,11 +3,12 @@ import Header from "@/components/Header/Header";
 import GalleryContainer from "@/components/Gallery/GalleryContainer";
 import { Entry as EntryType } from "@/@types/Entry";
 import GalleryItemWithEntry from "@/components/Gallery/GalleryItemWithEntry";
+import entry from "@/components/Entry/Entry";
 
 export default () => {
 
   // dummy entry
-  const entry: EntryType = {
+  const basedEntry: EntryType = {
     id: '1234',
     eyecatch: '/images/dummy/cat.jpg',
     title: 'タイトルタイトルタイトルタイトルタイトルタイトル',
@@ -46,12 +47,14 @@ echo "Hello World!";
     ],
   }
 
-
+  const entries = (new Array(10))
+    .fill(undefined, 0, 100)
+    .map((_, key) => ({ ...basedEntry, id: `${parseInt(basedEntry.id) + key}` }));
 
   return <>
     <Header />
     <GalleryContainer date="2022-09">
-      {  (new Array(10)).fill(undefined, 0, 100).map((_, key) => <GalleryItemWithEntry key={key} entry={entry} /> )}
+      { entries.map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
     </GalleryContainer>
     <footer>
       &copy; {process.env.NEXT_PUBLIC_WEB_TITLE}

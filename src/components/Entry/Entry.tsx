@@ -10,25 +10,18 @@ import { useHash } from "@/hooks/useHash";
 
 type Props = {
   isOpened: boolean,
+  isOpenedEyecatch: boolean,
   onClose: () => void,
   entry: Entry
 };
 
-const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
+const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) => {
   const router = useRouter();
-  const { isEyecatch } = useHash();
-  const [ isExpandedEyecatch, setIsExpandedEyecatch ] = useState(false);
-
-  useEffect(() => {
-    setIsExpandedEyecatch(isEyecatch);
-  })
 
   const open = () => {
-    setIsExpandedEyecatch(true)
     router.push(`#/monologue/${entry.id}/picture`);
   };
   const close = () => {
-    setIsExpandedEyecatch(false);
     router.push(`#/monologue/${entry.id}`);
   };
 
@@ -63,7 +56,7 @@ const Entry: React.FC<Props> = ({ isOpened, onClose, entry }) => {
       </div>
 
       <div className={entryStyle.entryNext}><i className="fa-solid fa-chevron-right"></i></div>
-      <div className={`${eyecatchStyle.eyecatchContainer} ${isExpandedEyecatch ? '' : 'hidden'}`} onClick={close}>
+      <div className={`${eyecatchStyle.eyecatchContainer} ${isOpenedEyecatch ? '' : 'hidden'}`} onClick={close}>
         <div className={eyecatchStyle.eyecatchContents} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
           <div className={eyecatchStyle.eyecatchInfo}>
             <ul className={entryStyle.entryTags}>

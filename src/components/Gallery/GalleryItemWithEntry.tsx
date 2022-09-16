@@ -12,26 +12,30 @@ type Props = {
 
 const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
   const router = useRouter();
-  const { isMonologue } = useHash();
-
-  const [isOpened, setIsOpened] = useState(false);
+  const { id, isMonologue, isEyecatch } = useHash();
+  const [ opened, setOpened ] = useState({ entry: false, eyecatch: false });
 
   useEffect(() => {
-    setIsOpened(isMonologue);
-  });
+    setOpened({
+      entry: isMonologue && id === entry.id,
+      eyecatch: isEyecatch && id === entry.id,
+    });
+  }, [entry, isMonologue, isEyecatch, id]);
 
   const openEntryDialog = () => {
-    setIsOpened(true);
     router.push(`#/monologue/${entry.id}`);
   };
   const closeEntryDialog = () => {
-    setIsOpened(false);
     router.push(`/`);
   };
 
   return <div className={galleryStyle.galleryItemContainer}>
     <GalleryItem onOpen={openEntryDialog} entry={entry} />
-    <Entry isOpened={isOpened} onClose={closeEntryDialog} entry={entry} />
+    <Entry
+      isOpened={opened.entry}
+      onClose={closeEntryDialog}
+      entry={entry}
+      isOpenedEyecatch={opened.eyecatch} />
   </div>
 }
 

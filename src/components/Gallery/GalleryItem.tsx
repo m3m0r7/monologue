@@ -11,7 +11,6 @@ type Props = {
 }
 
 const GalleryItem: React.FC<Props> = ({ onOpen, entry }) => {
-  const diff = parseInt(dayjs().format('D')) - parseInt(dayjs(entry.date).format('D'));
   return <div className={galleryStyle.galleryItem} style={{ backgroundImage: `url(${entry.eyecatch})` }} onClick={onOpen}>
     <div className={galleryStyle.galleryPostDatetime}>
       {calculateBehindDays(dayjs(), dayjs(entry.date))}

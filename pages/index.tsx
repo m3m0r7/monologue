@@ -55,6 +55,7 @@ const Index = () => {
       </div>
     </div>
     <div className={`${layouts.blogContainer} ${isOpened ? '' : 'hidden'}`}>
+      <div className={`${layouts.blogPrev} ${layouts.inactive}`}><i className="fa-solid fa-chevron-left"></i></div>
       <div className={layouts.blogBody}>
         <div className={layouts.blogEyecatch} style={{ backgroundImage: "url(/images/dummy/cat.jpg)" }}>
           <div className={layouts.blogTitleInEyecatch}>
@@ -72,6 +73,7 @@ const Index = () => {
           </div>
         </div>
       </div>
+      <div className={layouts.blogNext}><i className="fa-solid fa-chevron-right"></i></div>
     </div>
   </>
 }

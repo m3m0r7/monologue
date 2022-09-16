@@ -314,3 +314,23 @@
     }
   }
 }
+
+.blogPrev {
+  margin-right: 20px;
+}
+
+.blogNext {
+  margin-left: 20px;
+}
+
+.blogPrev, .blogNext {
+  font-weight: bold;
+  color: #FFFFFF;
+  font-size: 64px;
+  cursor: pointer;
+
+  &.inactive {
+    color: #333333;
+    cursor: not-allowed;
+  }
+}

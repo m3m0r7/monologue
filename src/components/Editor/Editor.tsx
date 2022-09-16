@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import * as editor from "./editor.module.scss"
 import * as entryStyle from "@/components/Entry/entry.module.scss";
 import dayjs from "dayjs";
+import EntryContents from "@/components/Entry/EntryContents";
 
 type Props = {
 }
 
 const Editor: React.FC<Props> = () => {
-  const autoHeight = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const [tab, setTab] = useState<'plain' | 'preview'>('plain');
+  const [text, setText] = useState('');
+
+  const write = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     e.currentTarget.style.height = 'auto';
     e.currentTarget.style.height = e.currentTarget.scrollHeight + 'px';
+
+    setText(e.currentTarget.value);
   }
+
 
   return <div className={`${entryStyle.entryContainer}`}>
     <div className={entryStyle.entryBody}>
@@ -33,17 +40,21 @@ const Editor: React.FC<Props> = () => {
         </ul>
 
         <ul className={editor.tabs}>
-          <li>
-            <span className={`${editor.tabLabel} ${editor.tabActive}`}>Plain Text</span>
+          <li onClick={() => setTab('plain')}>
+            <span className={`${editor.tabLabel} ${tab === 'plain' ? editor.tabActive : ''}`}>Plain Text</span>
           </li>
-          <li>
-            <span className={editor.tabLabel}>Preview</span>
+          <li onClick={() => setTab('preview')}>
+            <span className={`${editor.tabLabel} ${tab === 'preview' ? editor.tabActive : ''}`}>Preview</span>
           </li>
         </ul>
 
-        <div className={entryStyle.entryText}>
-          <textarea className={editor.entryTextInput} placeholder="Enter text..." onKeyUp={autoHeight}></textarea>
-        </div>
+        {tab === 'plain' && <div className={entryStyle.entryText}>
+          <textarea className={editor.entryTextInput} placeholder="Enter text..." onKeyUp={write}>{text}</textarea>
+        </div>}
+
+        {tab === 'preview' && <div className={entryStyle.entryText}>
+          <EntryContents>{text}</EntryContents>
+        </div>}
       </div>
     </div>
   </div>

@@ -11,6 +11,18 @@ const Editor: React.FC<Props> = () => {
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const [text, setText] = useState('');
 
+  const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    /**
+     * Replace entering tab to 4 spaces when writing an article.
+     */
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      e.stopPropagation();
+
+      e.currentTarget.value = e.currentTarget.value + '    ';
+    }
+  }
+
   const write = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     e.currentTarget.style.height = 'auto';
     e.currentTarget.style.height = e.currentTarget.scrollHeight + 'px';
@@ -49,7 +61,7 @@ const Editor: React.FC<Props> = () => {
         </ul>
 
         {tab === 'plain' && <div className={entryStyle.entryText}>
-          <textarea className={editor.entryTextInput} placeholder="Enter text..." onKeyUp={write}>{text}</textarea>
+          <textarea className={editor.entryTextInput} placeholder="Enter text..." onKeyDown={handle} onKeyUp={write}>{text}</textarea>
         </div>}
 
         {tab === 'preview' && <div className={entryStyle.entryText}>

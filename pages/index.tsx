@@ -4,6 +4,8 @@ import GalleryContainer from "@/components/Gallery/GalleryContainer";
 import { Entry as EntryType } from "@/@types/Entry";
 import GalleryItemWithEntry from "@/components/Gallery/GalleryItemWithEntry";
 import entry from "@/components/Entry/Entry";
+import Footer from "@/components/Footer/Footer";
+import Editor from "@/components/Editor/Editor";
 
 export default () => {
 
@@ -59,8 +61,7 @@ echo "Hello World!";
     <GalleryContainer date="2022-09">
       { entries.map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
     </GalleryContainer>
-    <footer>
-      &copy; {process.env.NEXT_PUBLIC_WEB_TITLE}
-    </footer>
+    <Editor />
+    <Footer />
   </>
 }

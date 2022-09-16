@@ -9,8 +9,14 @@ const Index = () => {
         <h1>{process.env.NEXT_PUBLIC_WEB_TITLE}</h1>
       </div>
       <div className={layouts.actions}>
-        <div className={layouts.actionSort}>
-          <span className={layouts.actionSortLabel}>Sort</span> <div className={layouts.actionSortDirection}>Recently</div>
+        <div className={layouts.actionContainer}>
+          <div className={layouts.actionContainerLabel}>Sort</div>
+          <div className={layouts.actionContainerContents}>Recently</div>
+        </div>
+        <div className={layouts.actionContainer}>
+          <div className={layouts.searchBoxContainer}>
+            <input type="text" className={layouts.searchBox} placeholder="Search..." />
+          </div>
         </div>
       </div>
     </div>

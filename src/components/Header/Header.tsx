@@ -2,7 +2,8 @@ import React from "react";
 import * as navigatorStyle from "./navigator.module.scss";
 import * as actionStyle from "./actions.module.scss";
 import { useAtom } from "jotai";
-import { sortAtom } from "@/contexts/Atom";
+import { authAtom, sortAtom } from "@/contexts/Atom";
+import { useRouter } from "next/router";
 
 type Props = {};
 
@@ -12,8 +13,18 @@ const SORT_TYPES = [
   { name: "Popular" },
 ];
 
-const Entry: React.FC<Props> = (props) => {
+const Header: React.FC<Props> = (props) => {
+  const router = useRouter();
   const [ sortIndex, setSortIndex ] = useAtom(sortAtom);
+  const [ auth ] = useAtom(authAtom);
+
+  const openEditor = () => {
+    if (!auth) {
+      router.push('/#/monologue/signIn');
+      return;
+    }
+    router.push('/#/monologue/new/edit');
+  }
 
   return <div className={navigatorStyle.navigator}>
     <div className={navigatorStyle.headerContainer}>
@@ -37,9 +48,14 @@ const Entry: React.FC<Props> = (props) => {
           <input type="text" className={actionStyle.searchBox} placeholder="Search..." />
         </div>
       </div>
+      <div className={actionStyle.actionContainer}>
+        <span className={actionStyle.actionEditor} onClick={openEditor}>
+          <i className="fa-solid fa-pen-to-square"></i>
+        </span>
+      </div>
     </div>
   </div>
 
 }
 
-export default Entry
+export default Header

@@ -18,9 +18,10 @@ const Editor: React.FC<Props> = () => {
   const { data: session } = useSession();
   const bodyContainerRef = useRef<HTMLDivElement>(null);
   const [showDialog, setShowDialog] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
 
   useEffect(() => {
-    setShowDialog(session && (isMonologue && isNew));
+    setShowDialog(!!session && (isMonologue && isNew));
   }, [session, isMonologue, isNew])
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -49,9 +50,24 @@ const Editor: React.FC<Props> = () => {
     setText(e.currentTarget.value);
   }
 
+  const enterTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+    if (e.currentTarget.value.replace(/\s*/, '') === '') {
+      return;
+    }
+    setTags([ ...tags, e.currentTarget.value ]);
+    e.currentTarget.value = '';
+  }
+
   const close = () => {
     router.push(`/`);
   };
+
+  const removeTag = (index: number) => {
+    setTags(tags.filter((_, tagIndex) => index !== tagIndex));
+  }
 
   return <div className={`${entryStyle.entryContainer} ${!showDialog ? 'hidden' : ''}`}>
     <div className={entryStyle.entryBodyContainer}>
@@ -71,9 +87,10 @@ const Editor: React.FC<Props> = () => {
           </div>
           <time className={entryStyle.entryDateTime}>{dayjs().format('ddd MMMM DD, YYYY')}</time>
           <ul className={entryStyle.entryTags}>
-            <li>#Choose a tag</li>
+            {tags.map((tag: string, key) => <li key={key}>#{tag} <i className={`fa-solid fa-close`} onClick={() => removeTag(key)}></i></li>)}
+            {/*<li>#Choose a tag</li>*/}
           </ul>
-          <input type="text" defaultValue="" className={entryStyle.tagField} placeholder="Enter a tag name" />
+          <input type="text" defaultValue="" className={entryStyle.tagField} placeholder="Enter a tag name" onKeyUp={enterTag} />
 
           <ul className={editor.tabs}>
             <li onClick={() => setTab('plain')}>

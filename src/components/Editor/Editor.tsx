@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import * as editor from "./editor.module.scss"
 import * as entryStyle from "@/components/Entry/entry.module.scss";
 import dayjs from "dayjs";
@@ -10,6 +10,7 @@ type Props = {
 const Editor: React.FC<Props> = () => {
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const [text, setText] = useState('');
+  const bodyContainerRef = useRef<HTMLDivElement | null>();
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     /**
@@ -24,10 +25,15 @@ const Editor: React.FC<Props> = () => {
   }
 
   const write = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-
-    // TODO: Check deletion key
-    e.currentTarget.style.height = 'auto';
+    if (e.key === 'Backspace') {
+      e.currentTarget.style.height = 'auto';
+    }
     e.currentTarget.style.height = e.currentTarget.scrollHeight + 'px';
+
+    /**
+     * Scroll to end of DOM because which is dynamically change by editing
+     */
+    bodyContainerRef.current?.scrollTo({ top: bodyContainerRef.current?.scrollHeight });
 
     setText(e.currentTarget.value);
   }
@@ -38,7 +44,7 @@ const Editor: React.FC<Props> = () => {
       <div className={entryStyle.entryClose} onClick={() => {}}>
         <i className={`fa-solid fa-close`}></i>
       </div>
-      <div className={entryStyle.entryBody}>
+      <div ref={bodyContainerRef} className={entryStyle.entryBody}>
         <div className={entryStyle.entryEyecatch}>
           <div className={editor.uploadableImage}>
             <i className={"fa-solid fa-image"}></i>

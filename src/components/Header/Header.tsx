@@ -2,8 +2,9 @@ import React from "react";
 import * as navigatorStyle from "./navigator.module.scss";
 import * as actionStyle from "./actions.module.scss";
 import { useAtom } from "jotai";
-import { authAtom, sortAtom } from "@/contexts/Atom";
+import { sortAtom } from "@/contexts/Atom";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react"
 
 type Props = {};
 
@@ -15,16 +16,8 @@ const SORT_TYPES = [
 
 const Header: React.FC<Props> = (props) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [ sortIndex, setSortIndex ] = useAtom(sortAtom);
-  const [ auth ] = useAtom(authAtom);
-
-  const openEditor = () => {
-    if (!auth) {
-      router.push(`/#/monologue/signIn?back=${encodeURIComponent('/#/monologue/new/edit')}`);
-      return;
-    }
-    router.push('/#/monologue/new/edit');
-  }
 
   return <div className={navigatorStyle.navigator}>
     <div className={navigatorStyle.headerContainer}>
@@ -48,11 +41,16 @@ const Header: React.FC<Props> = (props) => {
           <input type="text" className={actionStyle.searchBox} placeholder="Search..." />
         </div>
       </div>
-      <div className={actionStyle.actionContainer}>
-        <span className={actionStyle.actionEditor} onClick={openEditor}>
+      { !session && <div className={actionStyle.actionContainer}>
+        <span className={actionStyle.actionEditor} onClick={() => router.push(`/#/monologue/signIn?back=${encodeURIComponent('/#/monologue/new/edit')}`)}>
+          <i className="fa-solid fa-arrow-right-to-bracket"></i>
+        </span>
+      </div> }
+      { session && <div className={actionStyle.actionContainer}>
+        <span className={actionStyle.actionEditor} onClick={() => router.push('/#/monologue/new/edit')}>
           <i className="fa-solid fa-pen-to-square"></i>
         </span>
-      </div>
+      </div> }
     </div>
   </div>
 

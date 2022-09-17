@@ -16,13 +16,10 @@ const SignIn: React.FC<Props> = () => {
   }
 
   useEffect(() => {
-    setShowDialog(!!session || !(isMonologue && isSignIn));
+    setShowDialog(!session && (isMonologue && isSignIn));
   }, [session, isMonologue, isSignIn])
 
-  if (showDialog) {
-    return <div></div>
-  }
-  return <div className={signInStyle.signInOverlay}>
+  return <div className={`${signInStyle.signInOverlay} ${!showDialog ? 'hidden' : ''}`}>
     <div className={signInStyle.signInContainer}>
       <div className={signInStyle.signInClose} onClick={closeSignIn}>
         <i className={`fa-solid fa-close`}></i>

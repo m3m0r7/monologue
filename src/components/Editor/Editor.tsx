@@ -1,16 +1,27 @@
-import React, { MutableRefObject, useRef, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import * as editor from "./editor.module.scss"
 import * as entryStyle from "@/components/Entry/entry.module.scss";
 import dayjs from "dayjs";
 import EntryContents from "@/components/Entry/EntryContents";
+import { useSession } from "next-auth/react";
+import { useURLParameter } from "@/hooks/useURLParameter";
+import { useRouter } from "next/router";
 
 type Props = {
 }
 
 const Editor: React.FC<Props> = () => {
+  const router = useRouter();
+  const { isMonologue, isNew } = useURLParameter();
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const [text, setText] = useState('');
+  const { data: session } = useSession();
   const bodyContainerRef = useRef<HTMLDivElement>(null);
+  const [showDialog, setShowDialog] = useState(false);
+
+  useEffect(() => {
+    setShowDialog(session && (isMonologue && isNew));
+  }, [session, isMonologue, isNew])
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     /**
@@ -38,10 +49,13 @@ const Editor: React.FC<Props> = () => {
     setText(e.currentTarget.value);
   }
 
+  const close = () => {
+    router.push(`/`);
+  };
 
-  return <div className={`${entryStyle.entryContainer}`}>
+  return <div className={`${entryStyle.entryContainer} ${!showDialog ? 'hidden' : ''}`}>
     <div className={entryStyle.entryBodyContainer}>
-      <div className={entryStyle.entryClose} onClick={() => {}}>
+      <div className={entryStyle.entryClose} onClick={close}>
         <i className={`fa-solid fa-close`}></i>
       </div>
       <div ref={bodyContainerRef} className={entryStyle.entryBody}>

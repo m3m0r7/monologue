@@ -63,6 +63,7 @@ echo "Hello World!";
       { entries.map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
     </GalleryContainer>
     <SignIn />
+    <Editor />
     <Footer />
   </>
 }

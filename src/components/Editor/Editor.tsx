@@ -73,6 +73,7 @@ const Editor: React.FC<Props> = () => {
           <ul className={entryStyle.entryTags}>
             <li>#Choose a tag</li>
           </ul>
+          <input type="text" defaultValue="" className={entryStyle.tagField} placeholder="Enter a tag name" />
 
           <ul className={editor.tabs}>
             <li onClick={() => setTab('plain')}>

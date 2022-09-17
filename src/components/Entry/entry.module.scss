@@ -139,3 +139,13 @@
 .entryTitle {
   font-size: 32px;
 }
+
+.tagField {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  margin-top: 10px;
+  border: 1px solid #888888;
+  border-radius: 4px;
+}

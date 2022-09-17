@@ -61,7 +61,6 @@ echo "Hello World!";
     <GalleryContainer date="2022-09">
       { entries.map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
     </GalleryContainer>
-    <Editor />
     <Footer />
   </>
 }

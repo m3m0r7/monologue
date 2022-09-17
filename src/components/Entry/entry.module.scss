@@ -150,3 +150,30 @@
   border-radius: 4px;
   padding: 4px 8px;
 }
+
+.entryMarkdown {
+  ul {
+    list-style: initial;
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  table, td, th {
+    border: 1px #CCCCCC solid;
+  }
+
+  th {
+    background-color: #EEEEEE;
+  }
+
+  td, th {
+    padding: 10px;
+  }
+}

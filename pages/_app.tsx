@@ -1,14 +1,13 @@
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { SessionProvider } from "next-auth/react"
 
 import "@/css/styles.scss"
 import "@fortawesome/fontawesome-free/css/all.css"
 
-const App: NextPage<AppProps> = (props: AppProps) => {
-  const { Component, pageProps } = props
-
-  return <>
+const App: NextPage<AppProps> = ({ Component,   pageProps: { session, ...pageProps } }) => {
+  return <SessionProvider session={session}>
     <Head>
       <meta name="viewport” content=”width=device-width,initial-scale=1" />
       <link
@@ -21,7 +20,7 @@ const App: NextPage<AppProps> = (props: AppProps) => {
       <title>{process.env.NEXT_PUBLIC_WEB_TITLE}</title>
     </Head>
     <Component {...pageProps} />
-  </>
+  </SessionProvider>
 }
 
 export default App

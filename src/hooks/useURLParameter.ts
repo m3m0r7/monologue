@@ -22,7 +22,10 @@ export const useURLParameter = (): URLParameterType => {
       id: null,
     };
   }
-  const hashValue = router.asPath.substring(pathIndex + 1).replace(/^\/+/, '').split('/');
+  const hashValue = router.asPath.substring(pathIndex + 1)
+    .replace(/^\/+/, '')
+    .replace(/\?.+/, '')
+    .split('/');
 
   return {
     isMonologue: hashValue[0] === 'monologue',

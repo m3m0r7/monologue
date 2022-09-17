@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { MutableRefObject, useRef, useState } from "react";
 import * as editor from "./editor.module.scss"
 import * as entryStyle from "@/components/Entry/entry.module.scss";
 import dayjs from "dayjs";
@@ -10,7 +10,7 @@ type Props = {
 const Editor: React.FC<Props> = () => {
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const [text, setText] = useState('');
-  const bodyContainerRef = useRef<HTMLDivElement | null>();
+  const bodyContainerRef = useRef<HTMLDivElement>(null);
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     /**

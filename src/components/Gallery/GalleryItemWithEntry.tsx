@@ -4,7 +4,7 @@ import GalleryItem from "@/components/Gallery/GalleryItem";
 import Entry from "@/components/Entry/Entry";
 import * as galleryStyle from "./gallery.module.scss";
 import { useRouter } from "next/router";
-import { useHash } from "@/hooks/useHash";
+import { useURLParameter } from "@/hooks/useURLParameter";
 
 type Props = {
   entry: EntryType;
@@ -12,7 +12,7 @@ type Props = {
 
 const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
   const router = useRouter();
-  const { id, isMonologue, isEyecatch } = useHash();
+  const { id, isMonologue, isEyecatch } = useURLParameter();
   const [ opened, setOpened ] = useState({ entry: false, eyecatch: false });
 
   useEffect(() => {

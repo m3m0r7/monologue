@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { calculateBehindDays } from "@/helpers/calculator";
 import { useRouter } from "next/router";
 import EntryContents from "@/components/Entry/EntryContents";
-import { useHash } from "@/hooks/useHash";
+import { useURLParameter } from "@/hooks/useURLParameter";
 
 type Props = {
   isOpened: boolean,

@@ -20,7 +20,7 @@ const Header: React.FC<Props> = (props) => {
 
   const openEditor = () => {
     if (!auth) {
-      router.push('/#/monologue/signIn');
+      router.push(`/#/monologue/signIn?back=${encodeURIComponent('/#/monologue/new/edit')}`);
       return;
     }
     router.push('/#/monologue/new/edit');

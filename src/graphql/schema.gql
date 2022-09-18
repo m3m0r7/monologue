@@ -5,3 +5,7 @@ type Entry {
 type Tag {
   id: Int
 }
+
+type Query {
+  entries: [Entry]
+}

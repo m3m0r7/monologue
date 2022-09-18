@@ -27,7 +27,6 @@ const Editor: React.FC<Props> = () => {
   const router = useRouter();
   const { isMonologue, isNew } = useURLParameter();
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
-  const [text, setText] = useState('');
   const { data: session } = useSession();
   const bodyContainerRef = useRef<HTMLDivElement>(null);
   const [showDialog, setShowDialog] = useState(false);
@@ -36,6 +35,7 @@ const Editor: React.FC<Props> = () => {
   const [image, setImage] = useState<string | null>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
+  const textRef = useRef<HTMLTextAreaElement | null>(null)
 
   useEffect(() => {
     setShowDialog(!!session && (isMonologue && isNew));
@@ -49,8 +49,10 @@ const Editor: React.FC<Props> = () => {
     if (titleRef.current) {
       titleRef.current.value = data.title;
     }
+    if (textRef.current) {
+      textRef.current.value = data.text;
+    }
     setTags(data.tags);
-    setText(data.text);
     setImage(data.eyecatch)
   }, [])
 
@@ -77,7 +79,7 @@ const Editor: React.FC<Props> = () => {
      */
     bodyContainerRef.current?.scrollTo({ top: bodyContainerRef.current?.scrollHeight });
 
-    setText(e.currentTarget.value);
+    textRef.current!.value  = e.currentTarget.value;
   }
 
   const enterTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -99,21 +101,37 @@ const Editor: React.FC<Props> = () => {
     setTags(tags.filter((_, tagIndex) => index !== tagIndex));
   }
 
-  const uploadFile = (acceptedFiles: File[]) => {
+  const uploadFileCallback = (callback: (image: string, file: File) => void, acceptedFiles: File[]) => {
     const reader = new FileReader();
     const selectedFile = acceptedFiles[0];
     if (!selectedFile) {
       return;
     }
 
-    reader.onload = () => setImage(reader.result as string);
+    reader.onload = () => callback(reader.result as string, selectedFile);
     reader.readAsDataURL(selectedFile);
+  }
+
+  const uploadFile = (acceptedFiles: File[]) => {
+    uploadFileCallback(
+      (result) => setImage(result),
+      acceptedFiles
+    );
+  }
+
+  const uploadFileToEntry = (acceptedFiles: File[]) => {
+    uploadFileCallback(
+      (result, file) => {
+        textRef.current!.value = `${textRef.current?.value ?? ''}\n![${file.name}](${result})`;
+      },
+      acceptedFiles
+    );
   }
 
   const draft = () => {
     localStorage.setItem(KEY_NAME, JSON.stringify({
       eyecatch: image,
-      text,
+      text: textRef.current?.value ?? '',
       tags,
       title: titleRef.current?.value ?? '',
     }));
@@ -168,13 +186,23 @@ const Editor: React.FC<Props> = () => {
               </li>
             </ul>
 
-            {tab === 'plain' && <div className={entryStyle.entryText}>
-              <textarea className={editorStyle.entryTextInput} placeholder="Enter text..." onKeyDown={handle} onKeyUp={write} defaultValue={text}></textarea>
-            </div>}
+            <Dropzone
+              onDrop={uploadFileToEntry}
+              noClick
+            >
+              {({ getRootProps, getInputProps }) => (
+                <div {...getRootProps()} className={`${entryStyle.entryText} ${tab === 'plain' ? '' : entryStyle.entryTextHidden}`}>
+                  <input {...getInputProps()} />
+                  <textarea ref={textRef} className={editorStyle.entryTextInput} placeholder="Enter text..." onKeyDown={handle} onKeyUp={write}></textarea>
+                </div>
+              )}
+            </Dropzone>
 
-            {tab === 'preview' && <div className={entryStyle.entryText}>
-              <EntryContents>{text}</EntryContents>
-            </div>}
+            <div className={`${entryStyle.entryText} ${tab === 'preview' ? '' : entryStyle.entryTextHidden}`}>
+              <EntryContents>
+                {textRef.current?.value ?? ''}
+              </EntryContents>
+            </div>
             <div className={editorStyle.actionButtons}>
               <button type="button" className={editorStyle.draftButtonContainer} onClick={draft}>
                 <div className={editorStyle.draftButton}>

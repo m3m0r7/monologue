@@ -23,17 +23,15 @@
       animation-duration: 10s;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
-      background-size: 400% 400%;
     }
 
     .myIcon {
       background-size: contain;
       display: inline-block;
-
       border-radius: 50%;
       background-image: url(/images/icons/memory.png);
-      width: calc(100% - 10px);
-      height: calc(100% - 10px);
+      width: 54px;
+      height: 54px;
       box-sizing: border-box;
       padding: 5px;
       border: 5px solid #222222;

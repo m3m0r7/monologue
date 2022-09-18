@@ -7,6 +7,7 @@ import entry from "@/components/Entry/Entry";
 import Footer from "@/components/Footer/Footer";
 import Editor from "@/components/Editor/Editor";
 import SignIn from "@/components/SignIn/SignIn";
+import Dialog from "@/components/Dialog/Dialog";
 
 export default () => {
 

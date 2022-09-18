@@ -1,32 +1,11 @@
 @import  "@/css/mixin.scss";
 
 .entryContainer {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
+  @include overlay();
   height: 100vh;
-  background-color: var(--overlay);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  transition: opacity 0.2s, z-index 0.2s;
-  opacity: 1;
-  box-sizing: border-box;
 
   .entryClose {
-    width: 48px;
-    height: 48px;
-    position: absolute;
-    right: 10px;
-    top: -60px;
-    color: #FFFFFF;
-    font-size: 24px;
-    text-align: center;
-    line-height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
+    @include closeButton();
   }
 
   .entryBodyContainer {

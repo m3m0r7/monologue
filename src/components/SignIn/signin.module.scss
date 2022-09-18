@@ -1,39 +1,20 @@
 @import  "@/css/mixin.scss";
 
 .signInOverlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  background-color: var(--overlay);
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include overlay();
 }
 
 .signInContainer {
   box-sizing: border-box;
   width: 400px;
   background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+  box-shadow: 0 0 10px #000000;
   border-radius: 4px;
   padding: 40px;
   position: relative;
 
   .signInClose {
-    width: 48px;
-    height: 48px;
-    position: absolute;
-    right: 10px;
-    top: -50px;
-    color: #FFFFFF;
-    font-size: 24px;
-    text-align: center;
-    line-height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
+    @include closeButton();
   }
 
   h2 {

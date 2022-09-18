@@ -161,6 +161,12 @@
   td, th {
     padding: 10px;
   }
+
+  blockquote {
+    border-left: 3px solid var(--color-gray-3);
+    padding-left: 10px;
+    margin-left: 10px;
+  }
 }
 
 .entryTextHidden {

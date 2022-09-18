@@ -7,8 +7,6 @@ import * as entryStyle from "./entry.module.scss";
 import { visit } from "unist-util-visit";
 import { Handlers } from "mdast-util-to-hast";
 
-type Props = {};
-
 const remarkSecretSymbolPlugin = () => {
   return (tree: any) => visit(tree, "paragraph", (node: any) => {
     node.children.map((childNode: any) => {
@@ -20,12 +18,19 @@ const remarkSecretSymbolPlugin = () => {
         return;
       }
 
+      const key = (new URL(location.href)).searchParams.get('key')
+      if (process.env.SECRET_SYMBOL === key) {
+        return;
+      }
+
       // secret value.
       childNode.value = matched[1] + '█'.repeat(matched[2].length) + matched[3];
     })
     return;
   });
 }
+
+type Props = {};
 
 const EntryContents: React.FC<PropsWithChildren<Props> & { children: string }> = ({ children }) => {
   return <div className={entryStyle.entryMarkdown}>

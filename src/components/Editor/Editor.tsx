@@ -6,6 +6,7 @@ import EntryContents from "@/components/Entry/EntryContents";
 import { useSession } from "next-auth/react";
 import { useURLParameter } from "@/hooks/useURLParameter";
 import { useRouter } from "next/router";
+import Dropzone from "react-dropzone";
 
 type Props = {
 }
@@ -19,6 +20,8 @@ const Editor: React.FC<Props> = () => {
   const bodyContainerRef = useRef<HTMLDivElement>(null);
   const [showDialog, setShowDialog] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
+  const [dragging, setDragging] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
     setShowDialog(!!session && (isMonologue && isNew));
@@ -69,17 +72,38 @@ const Editor: React.FC<Props> = () => {
     setTags(tags.filter((_, tagIndex) => index !== tagIndex));
   }
 
+  const uploadFile = (acceptedFiles: File[]) => {
+    const reader = new FileReader();
+    const selectedFile = acceptedFiles[0];
+    if (!selectedFile) {
+      return;
+    }
+
+    reader.onload = () => setImage(reader.result as string);
+    reader.readAsDataURL(selectedFile);
+  }
+
   return <div className={`${entryStyle.entryContainer} ${!showDialog ? 'hidden' : ''}`}>
     <div className={entryStyle.entryBodyContainer}>
       <div className={entryStyle.entryClose} onClick={close}>
         <i className={`fa-solid fa-close`}></i>
       </div>
       <div ref={bodyContainerRef} className={entryStyle.entryBody}>
-        <div className={entryStyle.entryEyecatch}>
-          <div className={editorStyle.uploadableImage}>
-            <i className={"fa-solid fa-image"}></i>
-          </div>
-        </div>
+        <Dropzone
+          onDrop={uploadFile}
+          maxFiles={1}
+          onDragEnter={(e) => setDragging(true)}
+          onDragLeave={(e) => setDragging(false)}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps()} className={`${entryStyle.entryEyecatch} ${dragging ? entryStyle.entryEyecatchDragging : ''}`}  style={{ backgroundImage: image ? `url(${image})` : '' }}>
+              <input {...getInputProps()} />
+              <div className={editorStyle.uploadableImage}>
+                <i className={"fa-solid fa-image"}></i>
+              </div>
+            </div>)
+          }
+        </Dropzone>
         <div className={entryStyle.divisor}></div>
         <div className={entryStyle.entryContents}>
           <div className={entryStyle.entryTitle}>

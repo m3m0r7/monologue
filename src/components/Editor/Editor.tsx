@@ -9,15 +9,22 @@ import { useRouter } from "next/router";
 import Dropzone from "react-dropzone";
 import { useCookies } from "react-cookie";
 import Dialog from "@/components/Dialog/Dialog";
+import { Tag } from "@/@types/Entry";
 
 type Props = {
 }
 
-const COOKIE_NAME = 'monologue_draft';
+type DraftCookieType = {
+  eyecatch: string | null,
+  text: string,
+  tags: string[],
+  title: string,
+}
+
+const KEY_NAME = 'monologueDraft';
 
 const Editor: React.FC<Props> = () => {
   const router = useRouter();
-  const [cookies, setCookie, removeCookie] = useCookies([COOKIE_NAME]);
   const { isMonologue, isNew } = useURLParameter();
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const [text, setText] = useState('');
@@ -33,6 +40,19 @@ const Editor: React.FC<Props> = () => {
   useEffect(() => {
     setShowDialog(!!session && (isMonologue && isNew));
   }, [session, isMonologue, isNew])
+
+  useEffect(() => {
+    if (!localStorage.getItem(KEY_NAME)) {
+      return;
+    }
+    const data: DraftCookieType = JSON.parse(localStorage.getItem(KEY_NAME) ?? '{}');
+    if (titleRef.current) {
+      titleRef.current.value = data.title;
+    }
+    setTags(data.tags);
+    setText(data.text);
+    setImage(data.eyecatch)
+  }, [])
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     /**
@@ -90,17 +110,19 @@ const Editor: React.FC<Props> = () => {
     reader.readAsDataURL(selectedFile);
   }
 
-  const draft = () =>{
-    setCookie(COOKIE_NAME, {
+  const draft = () => {
+    localStorage.setItem(KEY_NAME, JSON.stringify({
       eyecatch: image,
       text,
       tags,
       title: titleRef.current?.value ?? '',
-    }, {
-      expires: dayjs().add(1, 'year').toDate(),
-    });
+    }));
 
     setDialog({ ...dialog, draft: true });
+  }
+
+  const publish = () => {
+    localStorage.removeItem(KEY_NAME);
   }
 
   return <>

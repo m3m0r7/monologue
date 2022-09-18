@@ -1,3 +1,4 @@
+@import  "@/css/mixin.scss";
 
 .galleries {
   display: grid;
@@ -35,7 +36,7 @@
     &:hover {
       .galleryTitle {
         opacity: 1;
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: var(--overlay);
       }
     }
   }

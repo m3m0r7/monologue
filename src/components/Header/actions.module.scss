@@ -1,3 +1,5 @@
+@import  "@/css/mixin.scss";
+
 .actions {
   color: #555555;
   font-size: 14px;
@@ -39,7 +41,7 @@
     .actionContainerContentsSelection {
       display: none;
       position: absolute;
-      background: rgba(0, 0, 0, 0.8);
+      background-color: var(--overlay);
       color: #AAAAAA;
       z-index: 20;
       border-radius: 4px;
@@ -70,7 +72,7 @@
     border-radius: 4px;
     box-sizing: border-box;
     .searchBox {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: var(--overlay);
       color: #AAAAAA;
       padding: 8px 16px;
       width: 240px;

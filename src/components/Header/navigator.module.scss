@@ -1,3 +1,4 @@
+@import  "@/css/mixin.scss";
 
 .navigator {
   padding: 40px;
@@ -11,7 +12,7 @@
       -webkit-background-clip: text !important;
       color: transparent;
       opacity: 0.8;
-      background: linear-gradient(-45deg, #f44336, #e91e63, #9c27b0, #673ab7);
+      background: var(--gradient);
       font-weight: bold;
       font-size: 32px;
       margin: 0;
@@ -43,7 +44,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: linear-gradient(-45deg, #f44336, #e91e63, #9c27b0, #673ab7);
+      background: var(--gradient);
       width: 64px;
       height: 64px;
 

@@ -1,6 +1,24 @@
+@import  "@/css/mixin.scss";
+
+:root {
+  --color1: #e91e63;
+  --color2: #f44336;
+  --color3: #9c27b0;
+  --color4: #673ab7;
+  --gradient: linear-gradient(-45deg, #f44336, #e91e63, #9c27b0, #673ab7);
+
+  --color-gray-1: #555555;
+  --color-gray-2: #888888;
+  --color-gray-3: #CCCCCC;
+  --color-gray-4: #EEEEEE;
+
+  --overlay: rgba(0, 0, 0, 0.8);
+}
+
 * {
   font-family: "M PLUS 1p", sans-serif;
 }
+
 body, html {
   font-size: 12px;
   padding: 0;
@@ -25,7 +43,7 @@ footer {
   justify-content: center;
   margin-top: 80px;
   margin-bottom: 40px;
-  color: #555555;
+  color: var(--color-gray-1);
 }
 
 @keyframes background-animation {
@@ -47,10 +65,11 @@ p {
 }
 
 a {
-  color: #e91e63;
+  color: var(--color1);
   transition: opacity 0.2s;
   opacity: 1;
   &:hover {
     opacity: 0.5;
   }
 }
+

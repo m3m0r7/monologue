@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Entry {
+  id Int @id @default(autoincrement())
+  title String?
+  text String?
+  publishedAt DateTime
+  eyecatch String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tags EntryTag[]
+}
+
+model EntryTag {
+  entry Entry @relation(fields: [entryId], references: [id])
+  entryId Int
+  tag Tag @relation(fields: [tagId], references: [id])
+  tagId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@id([tagId, entryId])
+}
+
+model Tag {
+  id Int @id @default(autoincrement())
+  name String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  entries EntryTag[]
+}

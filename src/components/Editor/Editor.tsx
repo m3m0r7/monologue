@@ -7,12 +7,17 @@ import { useSession } from "next-auth/react";
 import { useURLParameter } from "@/hooks/useURLParameter";
 import { useRouter } from "next/router";
 import Dropzone from "react-dropzone";
+import { useCookies } from "react-cookie";
+import Dialog from "@/components/Dialog/Dialog";
 
 type Props = {
 }
 
+const COOKIE_NAME = 'monologue_draft';
+
 const Editor: React.FC<Props> = () => {
   const router = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies([COOKIE_NAME]);
   const { isMonologue, isNew } = useURLParameter();
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const [text, setText] = useState('');
@@ -22,6 +27,8 @@ const Editor: React.FC<Props> = () => {
   const [tags, setTags] = useState<string[]>([]);
   const [dragging, setDragging] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     setShowDialog(!!session && (isMonologue && isNew));
@@ -83,71 +90,89 @@ const Editor: React.FC<Props> = () => {
     reader.readAsDataURL(selectedFile);
   }
 
-  return <div className={`${entryStyle.entryContainer} ${!showDialog ? 'hidden' : ''}`}>
-    <div className={entryStyle.entryBodyContainer}>
-      <div className={entryStyle.entryClose} onClick={close}>
-        <i className={`fa-solid fa-close`}></i>
-      </div>
-      <div ref={bodyContainerRef} className={entryStyle.entryBody}>
-        <Dropzone
-          onDrop={uploadFile}
-          maxFiles={1}
-          onDragEnter={(e) => setDragging(true)}
-          onDragLeave={(e) => setDragging(false)}
-        >
-          {({ getRootProps, getInputProps }) => (
-            <div {...getRootProps()} className={`${entryStyle.entryEyecatch} ${dragging ? entryStyle.entryEyecatchDragging : ''}`}  style={{ backgroundImage: image ? `url(${image})` : '' }}>
-              <input {...getInputProps()} />
-              <div className={editorStyle.uploadableImage}>
-                <i className={"fa-solid fa-image"}></i>
-              </div>
-            </div>)
-          }
-        </Dropzone>
-        <div className={entryStyle.divisor}></div>
-        <div className={entryStyle.entryContents}>
-          <div className={entryStyle.entryTitle}>
-            <input type="text" placeholder="Enter a title..." className={editorStyle.entryTitleInput} />
-          </div>
-          <time className={entryStyle.entryDateTime}>{dayjs().format('ddd MMMM DD, YYYY')}</time>
-          <ul className={entryStyle.entryTags}>
-            {tags.map((tag: string, key) => <li key={key}>#{tag} <i className={`fa-solid fa-close`} onClick={() => removeTag(key)}></i></li>)}
-            {/*<li>#Choose a tag</li>*/}
-          </ul>
-          <input type="text" defaultValue="" className={entryStyle.tagField} placeholder="Enter a tag name" onKeyUp={enterTag} />
+  const draft = () =>{
+    setCookie(COOKIE_NAME, {
+      eyecatch: image,
+      text,
+      tags,
+      title: titleRef.current?.value ?? '',
+    }, {
+      expires: dayjs().add(1, 'year').toDate(),
+    });
 
-          <ul className={editorStyle.tabs}>
-            <li onClick={() => setTab('plain')}>
-              <span className={`${editorStyle.tabLabel} ${tab === 'plain' ? editorStyle.tabActive : ''}`}>Plain Text</span>
-            </li>
-            <li onClick={() => setTab('preview')}>
-              <span className={`${editorStyle.tabLabel} ${tab === 'preview' ? editorStyle.tabActive : ''}`}>Preview</span>
-            </li>
-          </ul>
+    setDialog({ ...dialog, draft: true });
+  }
 
-          {tab === 'plain' && <div className={entryStyle.entryText}>
-            <textarea className={editorStyle.entryTextInput} placeholder="Enter text..." onKeyDown={handle} onKeyUp={write} defaultValue={text}></textarea>
-          </div>}
+  return <>
+    <div className={`${entryStyle.entryContainer} ${!showDialog ? 'hidden' : ''}`}>
+      <div className={entryStyle.entryBodyContainer}>
+        <div className={entryStyle.entryClose} onClick={close}>
+          <i className={`fa-solid fa-close`}></i>
+        </div>
+        <div ref={bodyContainerRef} className={entryStyle.entryBody}>
+          <Dropzone
+            onDrop={uploadFile}
+            maxFiles={1}
+            onDragEnter={(e) => setDragging(true)}
+            onDragLeave={(e) => setDragging(false)}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()} className={`${entryStyle.entryEyecatch} ${dragging ? entryStyle.entryEyecatchDragging : ''}`}  style={image ? { backgroundImage: image ? `url(${image})` : '' } : {}}>
+                <input {...getInputProps()} />
+                <div className={editorStyle.uploadableImage}>
+                  <i className={"fa-solid fa-image"}></i>
+                </div>
+              </div>)
+            }
+          </Dropzone>
+          <div className={entryStyle.divisor}></div>
+          <div className={entryStyle.entryContents}>
+            <div className={entryStyle.entryTitle}>
+              <input type="text" placeholder="Enter a title..." className={editorStyle.entryTitleInput} defaultValue="" ref={titleRef} />
+            </div>
+            <time className={entryStyle.entryDateTime}>{dayjs().format('ddd MMMM DD, YYYY')}</time>
+            <ul className={entryStyle.entryTags}>
+              {tags.map((tag: string, key) => <li key={key}>#{tag} <i className={`fa-solid fa-close`} onClick={() => removeTag(key)}></i></li>)}
+              {/*<li>#Choose a tag</li>*/}
+            </ul>
+            <input type="text" defaultValue="" className={entryStyle.tagField} placeholder="Enter a tag name" onKeyUp={enterTag} />
 
-          {tab === 'preview' && <div className={entryStyle.entryText}>
-            <EntryContents>{text}</EntryContents>
-          </div>}
-          <div className={editorStyle.actionButtons}>
-            <button type="button" className={editorStyle.draftButtonContainer}>
-              <div className={editorStyle.draftButton}>
-                <span>Draft</span>
-              </div>
-            </button>
-            <button type="button" className={editorStyle.publishButtonContainer}>
-              <div className={editorStyle.publishButton}>
-                <span>Publish</span>
-              </div>
-            </button>
+            <ul className={editorStyle.tabs}>
+              <li onClick={() => setTab('plain')}>
+                <span className={`${editorStyle.tabLabel} ${tab === 'plain' ? editorStyle.tabActive : ''}`}>Plain Text</span>
+              </li>
+              <li onClick={() => setTab('preview')}>
+                <span className={`${editorStyle.tabLabel} ${tab === 'preview' ? editorStyle.tabActive : ''}`}>Preview</span>
+              </li>
+            </ul>
+
+            {tab === 'plain' && <div className={entryStyle.entryText}>
+              <textarea className={editorStyle.entryTextInput} placeholder="Enter text..." onKeyDown={handle} onKeyUp={write} defaultValue={text}></textarea>
+            </div>}
+
+            {tab === 'preview' && <div className={entryStyle.entryText}>
+              <EntryContents>{text}</EntryContents>
+            </div>}
+            <div className={editorStyle.actionButtons}>
+              <button type="button" className={editorStyle.draftButtonContainer} onClick={draft}>
+                <div className={editorStyle.draftButton}>
+                  <span>Draft</span>
+                </div>
+              </button>
+              <button type="button" className={editorStyle.publishButtonContainer}>
+                <div className={editorStyle.publishButton}>
+                  <span>Publish</span>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <Dialog isOpened={dialog.draft} type="success" title="Saved" onClose={() => setDialog({ ...dialog, draft: false })}>
+      A draft was saved.
+    </Dialog>
+  </>
 }
 
 export default Editor;

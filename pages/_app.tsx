@@ -6,8 +6,9 @@ import { SessionProvider } from "next-auth/react"
 import "@/css/mixin.scss"
 import "@/css/styles.scss"
 import "@fortawesome/fontawesome-free/css/all.css"
+import { Session } from "next-auth";
 
-const App: NextPage<AppProps> = ({ Component,   pageProps: { session, ...pageProps } }) => {
+const App: NextPage<AppProps<{ session: Session }>> = ({ Component,   pageProps: { session, ...pageProps } }) => {
   return <SessionProvider session={session}>
     <Head>
       <meta name="viewport” content=”width=device-width,initial-scale=1" />

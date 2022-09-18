@@ -1,0 +1,7 @@
+type Entry {
+  id: Int
+}
+
+type Tag {
+  id: Int
+}

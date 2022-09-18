@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import * as editor from "./editor.module.scss"
+import * as editorStyle from "./editor.module.scss"
 import * as entryStyle from "@/components/Entry/entry.module.scss";
 import dayjs from "dayjs";
 import EntryContents from "@/components/Entry/EntryContents";
@@ -76,14 +76,14 @@ const Editor: React.FC<Props> = () => {
       </div>
       <div ref={bodyContainerRef} className={entryStyle.entryBody}>
         <div className={entryStyle.entryEyecatch}>
-          <div className={editor.uploadableImage}>
+          <div className={editorStyle.uploadableImage}>
             <i className={"fa-solid fa-image"}></i>
           </div>
         </div>
         <div className={entryStyle.divisor}></div>
         <div className={entryStyle.entryContents}>
           <div className={entryStyle.entryTitle}>
-            <input type="text" placeholder="Enter a title..." className={editor.entryTitleInput} />
+            <input type="text" placeholder="Enter a title..." className={editorStyle.entryTitleInput} />
           </div>
           <time className={entryStyle.entryDateTime}>{dayjs().format('ddd MMMM DD, YYYY')}</time>
           <ul className={entryStyle.entryTags}>
@@ -92,22 +92,34 @@ const Editor: React.FC<Props> = () => {
           </ul>
           <input type="text" defaultValue="" className={entryStyle.tagField} placeholder="Enter a tag name" onKeyUp={enterTag} />
 
-          <ul className={editor.tabs}>
+          <ul className={editorStyle.tabs}>
             <li onClick={() => setTab('plain')}>
-              <span className={`${editor.tabLabel} ${tab === 'plain' ? editor.tabActive : ''}`}>Plain Text</span>
+              <span className={`${editorStyle.tabLabel} ${tab === 'plain' ? editorStyle.tabActive : ''}`}>Plain Text</span>
             </li>
             <li onClick={() => setTab('preview')}>
-              <span className={`${editor.tabLabel} ${tab === 'preview' ? editor.tabActive : ''}`}>Preview</span>
+              <span className={`${editorStyle.tabLabel} ${tab === 'preview' ? editorStyle.tabActive : ''}`}>Preview</span>
             </li>
           </ul>
 
           {tab === 'plain' && <div className={entryStyle.entryText}>
-            <textarea className={editor.entryTextInput} placeholder="Enter text..." onKeyDown={handle} onKeyUp={write} defaultValue={text}></textarea>
+            <textarea className={editorStyle.entryTextInput} placeholder="Enter text..." onKeyDown={handle} onKeyUp={write} defaultValue={text}></textarea>
           </div>}
 
           {tab === 'preview' && <div className={entryStyle.entryText}>
             <EntryContents>{text}</EntryContents>
           </div>}
+          <div className={editorStyle.actionButtons}>
+            <button type="button" className={editorStyle.draftButtonContainer}>
+              <div className={editorStyle.draftButton}>
+                <span>Draft</span>
+              </div>
+            </button>
+            <button type="button" className={editorStyle.publishButtonContainer}>
+              <div className={editorStyle.publishButton}>
+                <span>Publish</span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -65,3 +65,56 @@
     }
   }
 }
+
+.actionButtons {
+  display: flex;
+  justify-content: right;
+  gap: 20px;
+  button {
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    &.draftButtonContainer {
+      font-weight: bold;
+      color: #666666;
+      transition: opacity 0.2s;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+
+    &.publishButtonContainer {
+      background: linear-gradient(-45deg, #f44336, #e91e63, #9c27b0, #673ab7);
+      border-radius: 20px;
+      padding: 5px;
+      border: none;
+      height: 40px;
+      box-sizing: border-box;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      &:hover {
+        opacity: 0.8;
+      }
+      .publishButton {
+        border-radius: 15px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        span {
+          color: transparent;
+          background-clip: text !important;
+          -webkit-background-clip: text !important;
+          background: linear-gradient(-45deg, #f44336, #e91e63, #9c27b0, #673ab7);
+        }
+      }
+    }
+
+  }
+}

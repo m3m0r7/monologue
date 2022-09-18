@@ -160,14 +160,14 @@
   }
 
   table {
-    border-collapse: separate;
+    border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
     box-sizing: border-box;
     border-radius: 4px;
   }
 
-  table, td, th {
+  td, th {
     border: 1px #CCCCCC solid;
   }
 

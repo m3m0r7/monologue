@@ -7,6 +7,8 @@ import { calculateBehindDays } from "@/helpers/calculator";
 import { useRouter } from "next/router";
 import EntryContents from "@/components/Entry/EntryContents";
 import { useURLParameter } from "@/hooks/useURLParameter";
+import { useEscCancellation } from "@/hooks/useEscCancellation";
+import ZoomImage from "@/components/Image/ZoomImage";
 
 type Props = {
   isOpened: boolean,
@@ -38,6 +40,13 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
     }
     router.push(`#/monologue/${entry.pager.next}`);
   }
+
+  useEscCancellation(() => {
+    if (!isOpened || isOpenedEyecatch) {
+      return;
+    }
+    onClose();
+  }, [isOpened, isOpenedEyecatch]);
 
   return <>
     <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
@@ -74,18 +83,16 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
       <div className={`${entryStyle.entryNext} ${entry.pager.next ? '' : entryStyle.inactive}`} onClick={next}>
         <i className="fa-solid fa-chevron-right"></i>
       </div>
-
-      <div className={`${eyecatchStyle.eyecatchContainer} ${isOpenedEyecatch ? '' : 'hidden'}`} onClick={close}>
-        <div className={eyecatchStyle.eyecatchContents} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
-          <div className={eyecatchStyle.eyecatchInfo}>
-            <ul className={entryStyle.entryTags}>
-              {entry.tags.map((tag, key) => <li key={key}>#{tag.name}</li>)}
-              <li>{calculateBehindDays(dayjs(), dayjs(entry.date))}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      </div>
+      <ZoomImage
+        tags={[
+          ...entry.tags.map((tag) => ({ ...tag, name: `#${tag.name}`})),
+          { name: calculateBehindDays(dayjs(), dayjs(entry.date)) }
+        ]}
+        imagePath={entry.eyecatch}
+        isOpened={isOpenedEyecatch}
+        onClose={close}
+      />
+    </div>
   </>
 }
 

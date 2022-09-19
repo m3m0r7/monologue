@@ -26,8 +26,6 @@ const GET_ENTRIES = gql`
 export default () => {
   const { loading, error, data } = useQuery<{ getEntries: Entry[] } | undefined>(GET_ENTRIES);
 
-  console.log(data);
-
 //   console.log(data);
 //
 //   // dummy entry

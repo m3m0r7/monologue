@@ -19,6 +19,10 @@ const GET_ENTRIES = gql`
       text,
       eyecatch,
       publishedAt,
+      tags {
+        id,
+        name,
+      },
     }
   }
 `;

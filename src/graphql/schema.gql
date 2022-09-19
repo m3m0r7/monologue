@@ -4,6 +4,7 @@ type Entry {
   text: String!
   eyecatch: String!
   publishedAt: String!
+  tags: [Tag!]
 }
 
 type Tag {
@@ -33,5 +34,5 @@ input AddEntryInput {
 }
 
 type Mutation {
-  addEntry(title: String!, text: String!, eyecatch: String!, tags: [TagInput]!): Entry!
+  addEntry(title: String!, text: String!, eyecatch: String!, tags: [TagInput!]!): Entry!
 }

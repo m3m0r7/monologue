@@ -14,8 +14,8 @@ import { useEscCancellation } from "@/hooks/useEscCancellation";
 import { gql } from "apollo-server-micro";
 import { useMutation } from "@apollo/client";
 
-const UPDATE_ENTRY = gql`
-  mutation AddEntry($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput]!) {
+const ADD_ENTRY = gql`
+  mutation AddEntry($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
     addEntry(title: $title, text: $text, eyecatch: $eyecatch, tags: $tags) {
       id
     }
@@ -35,7 +35,7 @@ type DraftCookieType = {
 const KEY_NAME = 'monologueDraft';
 
 const Editor: React.FC<Props> = () => {
-  const [addEntry, { data, loading, error }] = useMutation(UPDATE_ENTRY);
+  const [addEntry, { data, loading, error }] = useMutation(ADD_ENTRY);
 
   const router = useRouter();
   const { isMonologue, isNew } = useURLParameter();

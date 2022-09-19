@@ -1,5 +1,6 @@
 import { Dayjs } from "dayjs";
 import { Tag } from "@/@types/Tag";
+import { TagsOnEntries } from "@/@types/TagsOnEntries";
 
 export type Entry = {
   id: number;
@@ -7,7 +8,7 @@ export type Entry = {
   text?: string;
   eyecatch?: string;
   publishedAt?: string;
-  tags?: Tag[],
+  tags?: TagsOnEntries[],
   pager?: {
     next?: string,
     prev?: string,

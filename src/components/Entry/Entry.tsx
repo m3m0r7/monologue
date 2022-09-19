@@ -9,6 +9,7 @@ import EntryContents from "@/components/Entry/EntryContents";
 import { useURLParameter } from "@/hooks/useURLParameter";
 import { useEscCancellation } from "@/hooks/useEscCancellation";
 import ZoomImage from "@/components/Image/ZoomImage";
+import { Tag } from "@/@types/Tag";
 
 type Props = {
   isOpened: boolean,
@@ -67,9 +68,9 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
           <div className={entryStyle.divisor}></div>
           <div className={entryStyle.entryContents}>
             <div className={entryStyle.entryTitle}>{entry.title}</div>
-            <time className={entryStyle.entryDateTime}>{dayjs(entry.date).format('ddd MMMM DD, YYYY')}</time>
+            <time className={entryStyle.entryDateTime}>{dayjs(entry.publishedAt).format('ddd MMMM DD, YYYY')}</time>
             <ul className={entryStyle.entryTags}>
-              {(entry.tags ?? []).map((tag, key) => <li key={key}>#{tag.name}</li>)}
+              {(entry.tags ?? []).map((tag) => <li key={tag.tag.id}>#{tag.tag.name}</li>)}
             </ul>
             <div className={entryStyle.entryText}>
               <EntryContents>
@@ -85,8 +86,8 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
       </div>
       <ZoomImage
         tags={[
-          ...(entry.tags ?? []).map((tag) => ({ ...tag, name: `#${tag.name}`})),
-          { name: calculateBehindDays(dayjs(), dayjs(entry.date)) }
+          ...(entry.tags ?? []).map<Tag>((tag) => ({ ...tag.tag, name: `#${tag.tag.name}`})),
+          { name: calculateBehindDays(dayjs(), dayjs(entry.publishedAt)) }
         ]}
         imagePath={entry.eyecatch}
         isOpened={isOpenedEyecatch}

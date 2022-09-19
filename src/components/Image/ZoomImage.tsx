@@ -9,7 +9,7 @@ import { useEscCancellation } from "@/hooks/useEscCancellation";
 import { Schema } from "yaml/types";
 
 type Props = {
-  tags?: Tag[],
+  tags?: Partial<Tag>[],
   imagePath?: string,
   isOpened: boolean,
   onClose: () => void,

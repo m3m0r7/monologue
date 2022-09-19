@@ -1,9 +1,11 @@
+scalar DateTime
+
 type Entry {
   id: Int!
   title: String!
   text: String!
   eyecatch: String!
-  publishedAt: String!
+  publishedAt: DateTime!
   tags: [TagsOnEntries!]
 }
 

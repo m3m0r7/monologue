@@ -50,7 +50,7 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
 
   return <>
     <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
-      <div className={`${entryStyle.entryPrev} ${entry.pager.prev ? '' : entryStyle.inactive}`} onClick={prev}>
+      <div className={`${entryStyle.entryPrev} ${entry.pager?.prev ? '' : entryStyle.inactive}`} onClick={prev}>
         <i className="fa-solid fa-chevron-left"></i>
       </div>
 
@@ -69,7 +69,7 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
             <div className={entryStyle.entryTitle}>{entry.title}</div>
             <time className={entryStyle.entryDateTime}>{dayjs(entry.date).format('ddd MMMM DD, YYYY')}</time>
             <ul className={entryStyle.entryTags}>
-              {entry.tags.map((tag, key) => <li key={key}>#{tag.name}</li>)}
+              {(entry.tags ?? []).map((tag, key) => <li key={key}>#{tag.name}</li>)}
             </ul>
             <div className={entryStyle.entryText}>
               <EntryContents>
@@ -80,12 +80,12 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
         </div>
       </div>
 
-      <div className={`${entryStyle.entryNext} ${entry.pager.next ? '' : entryStyle.inactive}`} onClick={next}>
+      <div className={`${entryStyle.entryNext} ${entry.pager?.next ? '' : entryStyle.inactive}`} onClick={next}>
         <i className="fa-solid fa-chevron-right"></i>
       </div>
       <ZoomImage
         tags={[
-          ...entry.tags.map((tag) => ({ ...tag, name: `#${tag.name}`})),
+          ...(entry.tags ?? []).map((tag) => ({ ...tag, name: `#${tag.name}`})),
           { name: calculateBehindDays(dayjs(), dayjs(entry.date)) }
         ]}
         imagePath={entry.eyecatch}

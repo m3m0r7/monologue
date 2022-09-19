@@ -7,6 +7,6 @@ export const resolvers = {
     addEntry: addEntry
   },
   Query: {
-    getEntries: getEntries
+    getEntries,
   }
 }

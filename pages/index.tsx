@@ -8,8 +8,25 @@ import Footer from "@/components/Footer/Footer";
 import Editor from "@/components/Editor/Editor";
 import SignIn from "@/components/SignIn/SignIn";
 import Dialog from "@/components/Dialog/Dialog";
+import { useQuery } from "@apollo/client";
+import { gql } from "apollo-server-micro";
+
+const GET_ENTRIES = gql`
+  query {
+    getEntries {
+      id,
+      title,
+      text,
+      eyecatch,
+      publishedAt,
+    }
+  }
+`;
 
 export default () => {
+  const { loading, error, data } = useQuery(GET_ENTRIES);
+
+  console.log(data);
 
   // dummy entry
   const basedEntry: EntryType = {

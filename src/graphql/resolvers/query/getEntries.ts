@@ -7,5 +7,9 @@ export const getEntries: QueryResolvers['getEntries'] = async (
   context,
   info
 ) => {
-  return await prisma.entry.findMany();
+  return await prisma.entry.findMany({
+    orderBy: {
+      publishedAt: "desc",
+    },
+  });
 };

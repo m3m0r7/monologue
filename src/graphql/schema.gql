@@ -1,15 +1,24 @@
 type Entry {
-  id: Int
-  name: String!
+  id: Int!
+  title: String!
+  text: String!
+  eyecatch: String!
+  publishedAt: String!
 }
 
 type Tag {
-  id: Int
+  id: Int!
   name: String!
 }
 
+input ConditionalEntries {
+  sort: String
+  keyword: String
+  entryIds: [Int]
+}
+
 type Query {
-  getEntries: [Entry]
+  getEntries(conditionalEntries: ConditionalEntries): [Entry]
 }
 
 input TagInput {

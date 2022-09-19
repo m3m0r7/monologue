@@ -12,6 +12,7 @@ import Dialog from "@/components/Dialog/Dialog";
 import { Tag } from "@/@types/Tag";
 import { useEscCancellation } from "@/hooks/useEscCancellation";
 import { gql } from "apollo-server-micro";
+import { useMutation } from "@apollo/client";
 
 const UPDATE_ENTRY = gql`
   mutation AddEntry($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput]!) {
@@ -34,6 +35,8 @@ type DraftCookieType = {
 const KEY_NAME = 'monologueDraft';
 
 const Editor: React.FC<Props> = () => {
+  const [addEntry, { data, loading, error }] = useMutation(UPDATE_ENTRY);
+
   const router = useRouter();
   const { isMonologue, isNew } = useURLParameter();
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
@@ -150,7 +153,15 @@ const Editor: React.FC<Props> = () => {
   }
 
   const publish = () => {
-    localStorage.removeItem(KEY_NAME);
+    // localStorage.removeItem(KEY_NAME);
+    addEntry({
+      variables: {
+        title: titleRef.current?.value ?? '',
+        text: textRef.current?.value ?? '',
+        eyecatch: image,
+        tags: tags.map((tag) => ({ name: tag })),
+      }
+    });
   }
 
   useEscCancellation(() => {
@@ -226,7 +237,7 @@ const Editor: React.FC<Props> = () => {
                   <span>Draft</span>
                 </div>
               </button>
-              <button type="button" className={editorStyle.publishButtonContainer}>
+              <button type="button" className={editorStyle.publishButtonContainer} onClick={publish}>
                 <div className={editorStyle.publishButton}>
                   <span>Publish</span>
                 </div>

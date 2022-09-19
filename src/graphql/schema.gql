@@ -9,7 +9,7 @@ type Tag {
 }
 
 type Query {
-  entries: [Entry]
+  getEntries: [Entry]
 }
 
 input TagInput {

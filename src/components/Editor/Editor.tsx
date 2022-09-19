@@ -153,6 +153,7 @@ const Editor: React.FC<Props> = () => {
   }
 
   const publish = () => {
+    console.log();
     // localStorage.removeItem(KEY_NAME);
     addEntry({
       variables: {

@@ -1,6 +1,7 @@
-schema: "src/graphql/*.gql"
+overwrite: true
 generates:
   "src/@types/resolvers-types.ts":
+    schema: "src/graphql/*.gql"
     plugins:
       - typescript
       - typescript-resolvers

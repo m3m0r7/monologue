@@ -10,6 +10,7 @@ import Dropzone from "react-dropzone";
 import { useCookies } from "react-cookie";
 import Dialog from "@/components/Dialog/Dialog";
 import { Tag } from "@/@types/Entry";
+import { useEscCancellation } from "@/hooks/useEscCancellation";
 
 type Props = {
 }
@@ -142,6 +143,13 @@ const Editor: React.FC<Props> = () => {
   const publish = () => {
     localStorage.removeItem(KEY_NAME);
   }
+
+  useEscCancellation(() => {
+    if (!showDialog) {
+      return;
+    }
+    close();
+  }, [showDialog])
 
   return <>
     <div className={`${entryStyle.entryContainer} ${!showDialog ? 'hidden' : ''}`}>

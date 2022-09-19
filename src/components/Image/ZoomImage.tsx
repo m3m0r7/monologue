@@ -3,7 +3,8 @@ import * as zoomImageStyle from "@/components/Image/zoomImage.module.scss";
 import * as entryStyle from "@/components/Entry/entry.module.scss";
 import { calculateBehindDays } from "@/helpers/calculator";
 import dayjs from "dayjs";
-import { Entry, Tag } from "@/@types/Entry";
+import { Entry } from "@/@types/Entry";
+import { Tag } from "@/@types/Tag";
 import { useEscCancellation } from "@/hooks/useEscCancellation";
 import { Schema } from "yaml/types";
 

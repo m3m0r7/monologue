@@ -1,9 +1,5 @@
 import { Dayjs } from "dayjs";
-
-export type Tag = {
-  name: string;
-  link?: string;
-}
+import { Tag } from "@/@types/Tag";
 
 export type Entry = {
   id: string;

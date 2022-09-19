@@ -1,4 +1,4 @@
-import { Tag } from "@/@types/Entry";
+import { Tag } from "@/@types/Tag";
 
 export type Gallery = {
   title?: string;

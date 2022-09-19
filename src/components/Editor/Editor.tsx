@@ -9,8 +9,17 @@ import { useRouter } from "next/router";
 import Dropzone from "react-dropzone";
 import { useCookies } from "react-cookie";
 import Dialog from "@/components/Dialog/Dialog";
-import { Tag } from "@/@types/Entry";
+import { Tag } from "@/@types/Tag";
 import { useEscCancellation } from "@/hooks/useEscCancellation";
+import { gql } from "apollo-server-micro";
+
+const UPDATE_ENTRY = gql`
+  mutation AddEntry($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput]!) {
+    addEntry(title: $title, text: $text, eyecatch: $eyecatch, tags: $tags) {
+      id
+    }
+  }
+`
 
 type Props = {
 }

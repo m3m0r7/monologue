@@ -1,11 +1,28 @@
 type Entry {
   id: Int
+  name: String!
 }
 
 type Tag {
   id: Int
+  name: String!
 }
 
 type Query {
   entries: [Entry]
+}
+
+input TagInput {
+  name: String!
+}
+
+input AddEntryInput {
+  title: String!
+  text: String!
+  eyecatch: String!
+  tags: [TagInput!]!
+}
+
+type Mutation {
+  addEntry(title: String!, text: String!, eyecatch: String!, tags: [TagInput]!): Entry!
 }

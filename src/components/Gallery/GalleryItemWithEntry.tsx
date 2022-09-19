@@ -16,7 +16,6 @@ const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
   const [ opened, setOpened ] = useState({ entry: false, eyecatch: false });
 
   useEffect(() => {
-    console.log(id, entry.id)
     setOpened({
       entry: isMonologue && id === entry.id,
       eyecatch: isEyecatch && id === entry.id,

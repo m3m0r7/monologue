@@ -28,14 +28,14 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
   };
 
   const prev = () => {
-    if (!entry.pager.prev) {
+    if (!entry.pager?.prev) {
       return;
     }
     router.push(`#/monologue/${entry.pager.prev}`);
   }
 
   const next = () => {
-    if (!entry.pager.next) {
+    if (!entry.pager?.next) {
       return;
     }
     router.push(`#/monologue/${entry.pager.next}`);

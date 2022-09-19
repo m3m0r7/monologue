@@ -6,7 +6,7 @@ type URLParameterType = {
   isSignIn: boolean;
   isNew: boolean;
   isEdit: boolean;
-  id: string | null;
+  id: number | null;
 }
 
 export const useURLParameter = (): URLParameterType => {
@@ -33,6 +33,6 @@ export const useURLParameter = (): URLParameterType => {
     isSignIn: hashValue[1] === 'signIn',
     isNew: hashValue[1] === 'new',
     isEdit: hashValue[2] === 'edit',
-    id: hashValue[1] ?? null,
+    id: hashValue[1] ? parseInt(hashValue[1]) : null,
   };
 }

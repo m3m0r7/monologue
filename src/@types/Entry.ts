@@ -2,7 +2,7 @@ import { Dayjs } from "dayjs";
 import { Tag } from "@/@types/Tag";
 
 export type Entry = {
-  id: string;
+  id: number;
   title?: string;
   text?: string;
   eyecatch?: string;

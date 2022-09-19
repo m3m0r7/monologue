@@ -14,15 +14,17 @@ import { gql } from "apollo-server-micro";
 const GET_ENTRIES = gql`
   query {
     getEntries {
-      id,
-      title,
-      text,
-      eyecatch,
-      publishedAt,
+      id
+      title
+      text
+      eyecatch
+      publishedAt
       tags {
-        id,
-        name,
-      },
+        tag {
+            id
+            name
+        }
+      }
     }
   }
 `;

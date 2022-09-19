@@ -4,12 +4,17 @@ type Entry {
   text: String!
   eyecatch: String!
   publishedAt: String!
-  tags: [Tag!]
+  tags: [TagsOnEntries!]
 }
 
 type Tag {
   id: Int!
   name: String!
+}
+
+type TagsOnEntries {
+  entry: Entry!
+  tag: Tag!
 }
 
 input ConditionalEntries {
@@ -19,7 +24,7 @@ input ConditionalEntries {
 }
 
 type Query {
-  getEntries(conditionalEntries: ConditionalEntries): [Entry]
+  getEntries(conditionalEntries: ConditionalEntries): [Entry!]!
 }
 
 input TagInput {

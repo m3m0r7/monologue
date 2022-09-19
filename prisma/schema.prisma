@@ -8,17 +8,17 @@ datasource db {
 }
 
 model Entry {
-  id          Int        @id @default(autoincrement())
+  id          Int             @id @default(autoincrement())
   title       String?
   text        String?
   publishedAt DateTime
   eyecatch    String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  tags        EntryTag[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  tags        TagsOnEntries[]
 }
 
-model EntryTag {
+model TagsOnEntries {
   entry     Entry    @relation(fields: [entryId], references: [id])
   entryId   Int
   tag       Tag      @relation(fields: [tagId], references: [id])
@@ -30,9 +30,9 @@ model EntryTag {
 }
 
 model Tag {
-  id        Int        @id @default(autoincrement())
+  id        Int             @id @default(autoincrement())
   name      String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  entries   EntryTag[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  entries   TagsOnEntries[]
 }

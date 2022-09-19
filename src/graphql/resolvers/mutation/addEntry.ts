@@ -8,28 +8,24 @@ export const addEntry: MutationResolvers['addEntry'] = async (
   context,
   info
 ) => {
-  const entry = await prisma.entry.create({
+  return await prisma.entry.create({
     data: {
       title: args.title,
       text: args.text,
       eyecatch: args.eyecatch,
       publishedAt: dayjs().toDate(),
-    }
-  });
-
-  Promise.all(args.tags.map(async (tag) => {
-    const createdTag = await prisma.tag.create({
-      data: {
-        name: tag.name,
+      tags: {
+        create: args.tags.map((tag) => ({
+          tag: {
+            create: {
+              name: tag.name,
+            },
+          }
+        })),
       },
-    });
-    return prisma.entryTag.create({
-      data: {
-        entryId: entry.id,
-        tagId: createdTag.id,
-      }
-    });
-  }));
-
-  return entry;
+    },
+    include: {
+      tags: true,
+    },
+  });
 };

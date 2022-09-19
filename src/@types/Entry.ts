@@ -6,7 +6,7 @@ export type Entry = {
   title?: string;
   text?: string;
   eyecatch?: string;
-  date?: string;
+  publishedAt?: string;
   tags?: Tag[],
   pager?: {
     next?: string,

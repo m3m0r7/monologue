@@ -4,7 +4,7 @@ import { getEntries } from "@/graphql/resolvers/query/getEntries";
 
 export const resolvers = {
   Mutation: {
-    addEntry: addEntry
+    addEntry,
   },
   Query: {
     getEntries,

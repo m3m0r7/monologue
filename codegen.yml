@@ -10,3 +10,4 @@ generates:
       mappers:
         Entry: '@prisma/client/index.d#Entry'
         Tag: '@prisma/client/index.d#Tag'
+        TagsOnEntries: '@prisma/client/index.d#TagsOnEntries'

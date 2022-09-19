@@ -8,6 +8,13 @@ export const getEntries: QueryResolvers['getEntries'] = async (
   info
 ) => {
   return await prisma.entry.findMany({
+    include: {
+      tags: {
+        include: {
+          tag: true,
+        }
+      },
+    },
     orderBy: {
       publishedAt: "desc",
     },

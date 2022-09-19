@@ -12,13 +12,13 @@ CREATE TABLE "Entry" (
 );
 
 -- CreateTable
-CREATE TABLE "EntryTag" (
+CREATE TABLE "TagsOnEntries" (
     "entryId" INTEGER NOT NULL,
     "tagId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "EntryTag_pkey" PRIMARY KEY ("tagId","entryId")
+    CONSTRAINT "TagsOnEntries_pkey" PRIMARY KEY ("tagId","entryId")
 );
 
 -- CreateTable
@@ -32,7 +32,7 @@ CREATE TABLE "Tag" (
 );
 
 -- AddForeignKey
-ALTER TABLE "EntryTag" ADD CONSTRAINT "EntryTag_entryId_fkey" FOREIGN KEY ("entryId") REFERENCES "Entry"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TagsOnEntries" ADD CONSTRAINT "TagsOnEntries_entryId_fkey" FOREIGN KEY ("entryId") REFERENCES "Entry"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EntryTag" ADD CONSTRAINT "EntryTag_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tag"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TagsOnEntries" ADD CONSTRAINT "TagsOnEntries_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tag"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,3 +1,4 @@
 import { atom } from "jotai";
+import { ConditionalEntries } from "@/@types/resolvers-types";
 
-export const sortAtom = atom(0);
+export const searchAtom = atom<ConditionalEntries>({});

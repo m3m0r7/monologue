@@ -2,7 +2,7 @@ import React from "react";
 import * as navigatorStyle from "./navigator.module.scss";
 import * as actionStyle from "./actions.module.scss";
 import { useAtom } from "jotai";
-import { sortAtom } from "@/contexts/Atom";
+import { searchAtom } from "@/contexts/Atom";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react"
 
@@ -16,7 +16,7 @@ export const SORT_TYPES = [
 const Header: React.FC<Props> = (props) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const [ sortIndex, setSortIndex ] = useAtom(sortAtom);
+  const [ search, setSearch ] = useAtom(searchAtom);
 
   return <div className={navigatorStyle.navigator}>
     <div className={navigatorStyle.headerContainer}>
@@ -27,17 +27,17 @@ const Header: React.FC<Props> = (props) => {
       <div className={actionStyle.actionContainer}>
         <div className={actionStyle.actionContainerLabel}>Sort</div>
         <div className={actionStyle.actionContainerContents}>
-          <span>{ SORT_TYPES[sortIndex].name }</span>
+          <span>{ search.sort ?? SORT_TYPES[0].name }</span>
           <div className={actionStyle.actionContainerContentsSelection}>
             <ul>
-              {SORT_TYPES.map((sortType, key) => <li key={key} onClick={() => setSortIndex(key)}>{sortType.name}</li>)}
+              {SORT_TYPES.map((sortType, key) => <li key={key} onClick={() => setSearch({ ...search, sort: sortType.name })}>{sortType.name}</li>)}
             </ul>
           </div>
         </div>
       </div>
       <div className={actionStyle.actionContainer}>
         <div className={actionStyle.searchBoxContainer}>
-          <input type="text" className={actionStyle.searchBox} placeholder="Search..." />
+          <input type="text" className={actionStyle.searchBox} placeholder="Search..." onChange={(e) => setSearch({ ...search, keyword: e.currentTarget.value })} />
         </div>
       </div>
       { !session && <div className={actionStyle.actionContainer}>

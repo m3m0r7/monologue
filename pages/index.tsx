@@ -10,6 +10,9 @@ import SignIn from "@/components/SignIn/SignIn";
 import Dialog from "@/components/Dialog/Dialog";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
+import { ConditionalEntries } from "@/@types/resolvers-types";
+import { keywordAtom, searchAtom, sortAtom } from "@/contexts/Atom";
+import { useAtom } from "jotai";
 
 const GET_ENTRIES = gql`
   query GetEntries($conditionalEntries: ConditionalEntries) {
@@ -30,7 +33,12 @@ const GET_ENTRIES = gql`
 `;
 
 export default () => {
-  const [ loadEntries ] = useLazyQuery<{ getEntries: Entry[] } | undefined>(GET_ENTRIES);
+  const [conditionalEntries] = useAtom(searchAtom);
+  const [ loadEntries ] = useLazyQuery<{ getEntries: Entry[] } | undefined>(GET_ENTRIES, {
+    variables: {
+      conditionalEntries,
+    }
+  });
   const [entries, setEntries] = useState<Entry[]>([]);
 
   /**
@@ -42,7 +50,7 @@ export default () => {
       const result = await loadEntries();
       setEntries(result.data?.getEntries ?? []);
     })();
-  }, []);
+  }, [searchAtom]);
 
   return <>
     <Header />

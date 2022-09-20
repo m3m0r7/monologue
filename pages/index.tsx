@@ -11,7 +11,7 @@ import Dialog from "@/components/Dialog/Dialog";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
 import { ConditionalEntries } from "@/@types/resolvers-types";
-import { keywordAtom, searchAtom, sortAtom } from "@/contexts/Atom";
+import { searchAtom } from "@/contexts/Atom";
 import { useAtom } from "jotai";
 
 const GET_ENTRIES = gql`

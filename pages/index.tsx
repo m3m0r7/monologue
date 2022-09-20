@@ -61,7 +61,7 @@ export default () => {
       });
       setEntries(galleryList);
     })();
-  }, [searchAtom]);
+  }, [conditionalEntries]);
 
   const hasEntry = Object.keys(entries).length > 0;
 

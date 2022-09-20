@@ -62,8 +62,13 @@ export default () => {
     })();
   }, [searchAtom]);
 
+  const hasEntry = Object.keys(entries).length > 0;
+
   return <>
     <Header />
+    { !hasEntry && <div className="noEntries">
+      Oops! entries not found. Try to change search conditions or let's try to write an entry firstly :)
+    </div> }
     { Object.keys(entries).map((date) => {
       return <GalleryContainer date={date}>
         { entries[date].map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}

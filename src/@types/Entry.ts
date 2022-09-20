@@ -6,8 +6,8 @@ export type Entry = {
   id: number;
   title: string;
   text: string;
-  eyecatch: string;
-  publishedAt: Dayjs;
+  eyecatch?: string;
+  publishedAt: number;
   tags?: TagsOnEntries[],
   pager?: {
     next?: string,

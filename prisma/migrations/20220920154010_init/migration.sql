@@ -4,7 +4,7 @@ CREATE TABLE `Entry` (
     `title` TEXT NULL,
     `text` TEXT NULL,
     `publishedAt` DATETIME(3) NOT NULL,
-    `eyecatch` LONGBLOB NULL,
+    `eyecatch` LONGTEXT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 

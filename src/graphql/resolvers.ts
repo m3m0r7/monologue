@@ -15,8 +15,17 @@ export const resolvers = {
   DateTime: new GraphQLScalarType({
     name: 'DateTime',
     description: 'Date custom scalar type',
+    serialize(value: any) {
+      return value.getTime();
+    },
     parseValue(value: any) {
       return dayjs(value);
+    },
+    parseLiteral(ast) {
+      if (ast.kind === Kind.INT) {
+        return dayjs(parseInt(ast.value, 10));
+      }
+      return null;
     },
   })
 }

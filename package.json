@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "env-cmd -f .env.local next dev",
     "migrate:mysql": "env-cmd -f .env.local npx prisma migrate dev",
-    "generate": "npx prisma generate && graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "repository": {
     "type": "git",

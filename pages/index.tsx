@@ -13,7 +13,7 @@ import { gql } from "apollo-server-micro";
 import { ConditionalEntries } from "@/@types/resolvers-types";
 import { searchAtom } from "@/contexts/Atom";
 import { useAtom } from "jotai";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 const GET_ENTRIES = gql`
   query GetEntries($conditionalEntries: ConditionalEntries) {
@@ -53,11 +53,12 @@ export default () => {
       const result = await loadEntries();
       const galleryList: GalleryList = {};
       result.data?.getEntries.map((entry) => {
-        galleryList[entry.publishedAt.format('YYYY-MM')] = [
-          ...(galleryList[entry.publishedAt.format('YYYY-MM')] ?? []),
+        const publishedAt = dayjs(entry.publishedAt);
+        galleryList[publishedAt.format('YYYY-MM')] = [
+          ...(galleryList[publishedAt.format('YYYY-MM')] ?? []),
           entry
         ];
-      })
+      });
       setEntries(galleryList);
     })();
   }, [searchAtom]);
@@ -70,7 +71,7 @@ export default () => {
       Oops! entries not found. Try to change search conditions or let's try to write an entry firstly :)
     </div> }
     { Object.keys(entries).map((date) => {
-      return <GalleryContainer date={date}>
+      return <GalleryContainer date={date} key={date}>
         { entries[date].map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
       </GalleryContainer>
     }) }

@@ -13,6 +13,7 @@ import { gql } from "apollo-server-micro";
 import { ConditionalEntries } from "@/@types/resolvers-types";
 import { searchAtom } from "@/contexts/Atom";
 import { useAtom } from "jotai";
+import { Dayjs } from "dayjs";
 
 const GET_ENTRIES = gql`
   query GetEntries($conditionalEntries: ConditionalEntries) {
@@ -32,6 +33,8 @@ const GET_ENTRIES = gql`
   }
 `;
 
+type GalleryList = Record<string, Entry[]>
+
 export default () => {
   const [conditionalEntries] = useAtom(searchAtom);
   const [ loadEntries ] = useLazyQuery<{ getEntries: Entry[] } | undefined>(GET_ENTRIES, {
@@ -39,7 +42,7 @@ export default () => {
       conditionalEntries,
     }
   });
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [entries, setEntries] = useState<GalleryList>({});
 
   /**
    * The routing will re-render entry components then it will break fade-in animations.
@@ -48,15 +51,24 @@ export default () => {
   useEffect(() => {
     (async () => {
       const result = await loadEntries();
-      setEntries(result.data?.getEntries ?? []);
+      const galleryList: GalleryList = {};
+      result.data?.getEntries.map((entry) => {
+        galleryList[entry.publishedAt.format('YYYY-MM')] = [
+          ...(galleryList[entry.publishedAt.format('YYYY-MM')] ?? []),
+          entry
+        ];
+      })
+      setEntries(galleryList);
     })();
   }, [searchAtom]);
 
   return <>
     <Header />
-    <GalleryContainer date="2022-09">
-      { entries.map((entry: Entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
-    </GalleryContainer>
+    { Object.keys(entries).map((date) => {
+      return <GalleryContainer date={date}>
+        { entries[date].map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
+      </GalleryContainer>
+    }) }
     <SignIn />
     <Editor />
     <Footer />

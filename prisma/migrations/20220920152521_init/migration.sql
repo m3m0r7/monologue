@@ -1,10 +1,10 @@
 -- CreateTable
 CREATE TABLE `Entry` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(191) NULL,
-    `text` VARCHAR(191) NULL,
+    `title` TEXT NULL,
+    `text` TEXT NULL,
     `publishedAt` DATETIME(3) NOT NULL,
-    `eyecatch` VARCHAR(191) NOT NULL,
+    `eyecatch` LONGBLOB NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 

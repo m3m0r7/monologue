@@ -12,8 +12,8 @@ import { useLazyQuery, useQuery } from "@apollo/client";
 import { gql } from "apollo-server-micro";
 
 const GET_ENTRIES = gql`
-  query {
-    getEntries {
+  query GetEntries($conditionalEntries: ConditionalEntries) {
+    getEntries(conditionalEntries: $conditionalEntries) {
       id
       title
       text

@@ -1,18 +1,16 @@
 version: '3'
 
 services:
-  postgres:
-    image: postgres:latest
+  mysql:
+    image: mysql:8
     restart: always
     environment:
-      POSTGRES_USER: monologue
-      POSTGRES_PASSWORD: monologue
-      PGPASSWORD: monologue
-      POSTGRES_DB: monologue
+      MYSQL_DATABASE: monologue
+      MYSQL_USER: monologue
+      MYSQL_PASSWORD: monologue
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
       TZ: "Asia/Tokyo"
     ports:
-      - 5432:5432
+      - "33306:3306"
     volumes:
-      - postgres:/var/lib/postgresql/data
-volumes:
-  postgres:
+      - ./data:/var/lib/mysql:delegated

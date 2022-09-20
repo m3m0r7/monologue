@@ -5,4 +5,5 @@ package-lock.json
 .next
 !.env.example
 resolvers-types.ts
+data
 

@@ -8,10 +8,9 @@ import { useSession } from "next-auth/react"
 
 type Props = {};
 
-const SORT_TYPES = [
+export const SORT_TYPES = [
   { name: "Recently" },
   { name: "Oldest" },
-  { name: "Popular" },
 ];
 
 const Header: React.FC<Props> = (props) => {

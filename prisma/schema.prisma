@@ -1,9 +1,10 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,6 +17,9 @@ model Entry {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   tags        TagsOnEntries[]
+
+  @@fulltext([text])
+  @@fulltext([text, title])
 }
 
 model TagsOnEntries {
@@ -35,4 +39,6 @@ model Tag {
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
   entries   TagsOnEntries[]
+
+  @@fulltext([name])
 }

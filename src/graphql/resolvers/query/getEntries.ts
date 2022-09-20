@@ -15,8 +15,17 @@ export const getEntries: QueryResolvers['getEntries'] = async (
         }
       },
     },
+    where: (args.conditionalEntries?.keyword ? {
+      text: {
+        search: args.conditionalEntries?.keyword
+      },
+      title: {
+        search: args.conditionalEntries?.keyword
+      },
+    } : {}),
     orderBy: {
-      publishedAt: "desc",
+      ...(args.conditionalEntries?.sort === 'Recently' ? { publishedAt: "desc" } : {}),
+      ...(args.conditionalEntries?.sort === 'Oldest' ? { publishedAt: "asc" } : {}),
     },
   });
 };

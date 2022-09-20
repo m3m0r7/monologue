@@ -15,7 +15,7 @@ import { gql } from "apollo-server-micro";
 import { useMutation } from "@apollo/client";
 
 const ADD_ENTRY = gql`
-  mutation AddEntry($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
+  mutation AddEntryInput($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
     addEntry(title: $title, text: $text, eyecatch: $eyecatch, tags: $tags) {
       id
     }

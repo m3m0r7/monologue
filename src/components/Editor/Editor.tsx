@@ -107,7 +107,7 @@ const Editor: React.FC<Props> = () => {
   }
 
   const close = () => {
-    router.push(`/`);
+    router.push(`/`, undefined, { shallow: true });
   };
 
   const removeTag = (index: number) => {

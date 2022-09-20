@@ -23,10 +23,10 @@ const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
   }, [entry, isMonologue, isEyecatch, id]);
 
   const openEntryDialog = () => {
-    router.push(`#/monologue/${entry.id}`);
+    router.push(`#/monologue/${entry.id}`, undefined, { shallow: true });
   };
   const closeEntryDialog = () => {
-    router.push(`/`);
+    router.push(`/`, undefined, { shallow: true });
   };
 
   return <div className={galleryStyle.galleryItemContainer}>

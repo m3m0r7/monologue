@@ -42,12 +42,12 @@ const Header: React.FC<Props> = (props) => {
         </div>
       </div>
       { !session && <div className={actionStyle.actionContainer}>
-        <span className={actionStyle.actionEditor} onClick={() => router.push(`/#/monologue/signIn?back=${encodeURIComponent('/#/monologue/new/edit')}`)}>
+        <span className={actionStyle.actionEditor} onClick={() => router.push(`/#/monologue/signIn?back=${encodeURIComponent('/#/monologue/new/edit')}`, undefined, { shallow: true })}>
           <i className="fa-solid fa-arrow-right-to-bracket"></i>
         </span>
       </div> }
       { session && <div className={actionStyle.actionContainer}>
-        <span className={actionStyle.actionEditor} onClick={() => router.push('/#/monologue/new/edit')}>
+        <span className={actionStyle.actionEditor} onClick={() => router.push('/#/monologue/new/edit', undefined, { shallow: true })}>
           <i className="fa-solid fa-pen-to-square"></i>
         </span>
       </div> }

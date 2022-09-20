@@ -12,7 +12,7 @@ const SignIn: React.FC<Props> = () => {
   const { data: session } = useSession();
   const [showDialog, setShowDialog] = useState(false);
   const closeSignIn = () => {
-    router.push('/');
+    router.push('/', undefined, { shallow: true });
   }
 
   useEffect(() => {

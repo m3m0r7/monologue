@@ -22,24 +22,24 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
   const router = useRouter();
 
   const open = () => {
-    router.push(`#/monologue/${entry.id}/picture`);
+    router.push(`#/monologue/${entry.id}/picture`, undefined, { shallow: true });
   };
   const close = () => {
-    router.push(`#/monologue/${entry.id}`);
+    router.push(`#/monologue/${entry.id}`, undefined, { shallow: true });
   };
 
   const prev = () => {
     if (!entry.pager?.prev) {
       return;
     }
-    router.push(`#/monologue/${entry.pager.prev}`);
+    router.push(`#/monologue/${entry.pager.prev}`, undefined, { shallow: true });
   }
 
   const next = () => {
     if (!entry.pager?.next) {
       return;
     }
-    router.push(`#/monologue/${entry.pager.next}`);
+    router.push(`#/monologue/${entry.pager.next}`, undefined, { shallow: true });
   }
 
   useEscCancellation(() => {
@@ -84,16 +84,16 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
       <div className={`${entryStyle.entryNext} ${entry.pager?.next ? '' : entryStyle.inactive}`} onClick={next}>
         <i className="fa-solid fa-chevron-right"></i>
       </div>
-      <ZoomImage
-        tags={[
-          ...(entry.tags ?? []).map<Tag>((tag) => ({ ...tag.tag, name: `#${tag.tag.name}`})),
-          { name: calculateBehindDays(dayjs(), dayjs(entry.publishedAt)) }
-        ]}
-        imagePath={entry.eyecatch}
-        isOpened={isOpenedEyecatch}
-        onClose={close}
-      />
     </div>
+    <ZoomImage
+      tags={[
+        ...(entry.tags ?? []).map<Tag>((tag) => ({ ...tag.tag, name: `#${tag.tag.name}`})),
+        { name: calculateBehindDays(dayjs(), dayjs(entry.publishedAt)) }
+      ]}
+      imagePath={entry.eyecatch}
+      isOpened={isOpenedEyecatch}
+      onClose={close}
+    />
   </>
 }
 

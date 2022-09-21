@@ -24,7 +24,7 @@ const ADD_ENTRY = gql`
 `
 
 const UPDATE_ENTRY = gql`
-  mutation AddEntry($id: Int!, $title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
+  mutation UpdateEntry($id: Int!, $title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
     updateEntry(id: $id, title: $title, text: $text, eyecatch: $eyecatch, tags: $tags) {
       id
     }

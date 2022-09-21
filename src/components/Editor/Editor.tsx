@@ -31,25 +31,9 @@ const UPDATE_ENTRY = gql`
   }
 `
 
-const GET_ENTRY = gql`
-  query GetEntry($id: Int!) {
-    getEntry(id: $id) {
-      id
-      title
-      text
-      publishedAt
-      eyecatch
-      tags {
-        tag {
-          id
-          name
-        }
-      }
-    }
-  }
-`
-
 type Props = {
+  entry?: Entry,
+  isOpened?: boolean
 }
 
 type DraftCookieType = {
@@ -61,8 +45,7 @@ type DraftCookieType = {
 
 const KEY_NAME = 'monologueDraft';
 
-const Editor: React.FC<Props> = () => {
-  const [getEntry] = useLazyQuery<{ getEntry: Entry } | undefined>(GET_ENTRY);
+const Editor: React.FC<Props> = ({ entry, isOpened = false }) => {
   const [addEntry] = useMutation(ADD_ENTRY);
   const [updateEntry] = useMutation(UPDATE_ENTRY);
 
@@ -71,7 +54,6 @@ const Editor: React.FC<Props> = () => {
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const { data: session } = useSession();
   const bodyContainerRef = useRef<HTMLDivElement>(null);
-  const [showDialog, setShowDialog] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [dragging, setDragging] = useState(false);
   const [image, setImage] = useState<string | null>(null);
@@ -82,49 +64,24 @@ const Editor: React.FC<Props> = () => {
   const [ publishedAt, setPublishedAt ] = useState<number | null>(null);
 
   useEffect(() => {
-    setShowDialog(!!session && (isMonologue && (isNew || isEdit)));
-  }, [session, isMonologue, isNew, isEdit])
-
-  useEffect(() => {
-    if (isEdit) {
+    if (!isOpened) {
+      return;
+    }
+    if (entry?.id === id) {
       setSubmitText('Edit');
     }
-    const keyName = `${KEY_NAME}${isEdit ? `.${id}` : ''}`;
-      if (!localStorage.getItem(keyName)) {
-        if (isEdit && id) {
-          (async () => {
-            const { data, error } = await getEntry({
-              variables: {
-                id,
-              }
-            });
-            if (error || ! data?.getEntry) {
-              return;
-            }
-
-            if (titleRef.current) {
-              titleRef.current.value = data.getEntry.title;
-            }
-            if (textRef.current) {
-              textRef.current.value = data.getEntry.text;
-            }
-            setTags(data.getEntry.tags?.map((tag) => tag.tag.name) ?? []);
-            setImage(data.getEntry.eyecatch ?? '');
-            setPublishedAt(data.getEntry.publishedAt);
-          })();
-        }
-        return;
-      }
-      const data: DraftCookieType = JSON.parse(localStorage.getItem(keyName) ?? '{}');
-      if (titleRef.current) {
-        titleRef.current.value = data.title;
-      }
-      if (textRef.current) {
-        textRef.current.value = data.text;
-      }
-      setTags(data.tags);
-      setImage(data.eyecatch);
-  }, [])
+    const keyName = `${KEY_NAME}${entry ? `.${entry.id}` : ''}`;
+    const data: DraftCookieType = JSON.parse(localStorage.getItem(keyName) ?? '{}');
+    if (titleRef.current) {
+      titleRef.current.value = data.title ?? entry?.title;
+    }
+    if (textRef.current) {
+      textRef.current.value = data.text ?? entry?.text;
+    }
+    setTags(data.tags ?? (entry?.tags ?? []).map((tag) => tag.tag.name));
+    setImage(data.eyecatch ?? entry?.eyecatch ?? '');
+    setPublishedAt(entry?.publishedAt ?? null);
+  }, [isOpened])
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     /**
@@ -164,6 +121,10 @@ const Editor: React.FC<Props> = () => {
   }
 
   const close = () => {
+    if (isEdit) {
+      router.push(`#/monologue/${id}`, undefined, { shallow: true });
+      return;
+    }
     router.push(`/`, undefined, { shallow: true });
   };
 
@@ -221,6 +182,8 @@ const Editor: React.FC<Props> = () => {
         tags: tags.map((tag) => ({ name: tag })),
       }
     });
+
+    setDialog({ ...dialog, published: true });
   }
 
   const edit = () => {
@@ -235,17 +198,19 @@ const Editor: React.FC<Props> = () => {
         tags: tags.map((tag) => ({ name: tag })),
       }
     });
+
+    setDialog({ ...dialog, edit: true });
   }
 
   useEscCancellation(() => {
-    if (!showDialog) {
+    if (!isOpened) {
       return;
     }
     close();
-  }, [showDialog])
+  }, [isOpened])
 
   return <>
-    <div className={`${entryStyle.entryContainer} ${!showDialog ? 'hidden' : ''}`}>
+    <div className={`${entryStyle.entryContainer} ${!isOpened ? 'hidden' : ''}`}>
       <div className={entryStyle.entryBodyContainer}>
         <div className={entryStyle.entryClose} onClick={close}>
           <i className={`fa-solid fa-close`}></i>
@@ -322,6 +287,12 @@ const Editor: React.FC<Props> = () => {
     </div>
     <Dialog isOpened={dialog.draft} type="success" title="Saved" onClose={() => setDialog({ ...dialog, draft: false })}>
       A draft was saved.
+    </Dialog>
+    <Dialog isOpened={dialog.published} type="success" title="Published" onClose={() => setDialog({ ...dialog, published: false })}>
+      An entry was published.
+    </Dialog>
+    <Dialog isOpened={dialog.edit} type="success" title="Published" onClose={() => setDialog({ ...dialog, edit: false })}>
+      An entry was edit.
     </Dialog>
   </>
 }

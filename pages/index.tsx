@@ -14,6 +14,7 @@ import { ConditionalEntries } from "@/@types/resolvers-types";
 import { searchAtom } from "@/contexts/Atom";
 import { useAtom } from "jotai";
 import dayjs, { Dayjs } from "dayjs";
+import { useURLParameter } from "@/hooks/useURLParameter";
 
 const GET_ENTRIES = gql`
   query GetEntries($conditionalEntries: ConditionalEntries) {
@@ -43,6 +44,11 @@ export default () => {
     }
   });
   const [entries, setEntries] = useState<GalleryList>({});
+  const [openEditor, setOpenEditor] = useState(false);
+  const { isNew } = useURLParameter();
+  useEffect(() => {
+    setOpenEditor(isNew);
+  }, [isNew])
 
   /**
    * The routing will re-render entry components then it will break fade-in animations.
@@ -75,8 +81,8 @@ export default () => {
         { entries[date].map((entry) => <GalleryItemWithEntry key={entry.id} entry={entry} /> )}
       </GalleryContainer>
     }) }
+    <Editor isOpened={openEditor} />
     <SignIn />
-    <Editor />
     <Footer />
   </>
 }

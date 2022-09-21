@@ -29,13 +29,15 @@ export const useURLParameter = (): URLParameterType => {
       .replace(/\?.+/, '')
       .split('/');
 
+    const id = hashValue[1] && hashValue[1].match(/^[0-9]+$/) ? parseInt(hashValue[1]) : null;
+
     return {
       isMonologue: hashValue[0] === 'monologue',
       isEyecatch: hashValue[2] === 'picture',
       isSignIn: hashValue[1] === 'signIn',
-      isNew: hashValue[1] === 'new',
+      isNew: !id && hashValue[1] === 'new',
       isEdit: hashValue[2] === 'edit',
-      id: hashValue[1] ? parseInt(hashValue[1]) : null,
+      id,
     };
   }, [router.asPath]);
 }

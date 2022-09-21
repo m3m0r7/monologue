@@ -13,11 +13,11 @@ import { Tag } from "@/@types/Tag";
 import { useSession } from "next-auth/react";
 import { gql } from "apollo-server-micro";
 import { useMutation } from "@apollo/client";
+import Editor from "@/components/Editor/Editor";
 
 type Props = {
   isOpened: boolean,
   isOpenedEyecatch: boolean,
-  onClose: () => void,
   entry: Entry
 };
 
@@ -27,10 +27,15 @@ const DELETE_ENTRIES = gql`
   }
 `
 
-const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) => {
+const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [deleteEntries] = useMutation<boolean>(DELETE_ENTRIES);
+  const { isMonologue, isNew, isEdit, id } = useURLParameter();
+
+  const closeEntryDialog = () => {
+    return router.push(`/`, undefined, { shallow: true });
+  };
 
   const expandEyecatch = () => {
     router.push(`#/monologue/${entry.id}/picture`, undefined, { shallow: true });
@@ -64,16 +69,16 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
           variables: {
             entryIds: [entry.id],
           }
-        });;
+        });
     })();
   }
 
   useEscCancellation(() => {
-    if (!isOpened || isOpenedEyecatch) {
+    if (isEdit || !isOpened || isOpenedEyecatch) {
       return;
     }
-    onClose();
-  }, [isOpened, isOpenedEyecatch]);
+    closeEntryDialog();
+  }, [isEdit, isOpened, isOpenedEyecatch]);
 
   return <>
     <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
@@ -82,7 +87,7 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
       </div>
 
       <div className={entryStyle.entryBodyContainer}>
-        <div className={entryStyle.entryClose} onClick={onClose}>
+        <div className={entryStyle.entryClose} onClick={closeEntryDialog}>
           <i className={`fa-solid fa-close`}></i>
         </div>
         <div className={entryStyle.entryBody}>
@@ -128,6 +133,8 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
       isOpened={isOpenedEyecatch}
       onClose={close}
     />
+
+    <Editor entry={entry} isOpened={entry.id === id && isEdit} />
   </>
 }
 

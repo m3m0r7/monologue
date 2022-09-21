@@ -25,15 +25,10 @@ const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
   const openEntryDialog = () => {
     router.push(`#/monologue/${entry.id}`, undefined, { shallow: true });
   };
-  const closeEntryDialog = () => {
-    router.push(`/`, undefined, { shallow: true });
-  };
-
   return <div className={galleryStyle.galleryItemContainer}>
     <GalleryItem onOpen={openEntryDialog} entry={entry} />
     <Entry
       isOpened={opened.entry}
-      onClose={closeEntryDialog}
       entry={entry}
       isOpenedEyecatch={opened.eyecatch} />
   </div>

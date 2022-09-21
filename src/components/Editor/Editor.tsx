@@ -38,7 +38,7 @@ const Editor: React.FC<Props> = () => {
   const [addEntry, { data, loading, error }] = useMutation(ADD_ENTRY);
 
   const router = useRouter();
-  const { isMonologue, isNew } = useURLParameter();
+  const { isMonologue, isNew, isEdit } = useURLParameter();
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const { data: session } = useSession();
   const bodyContainerRef = useRef<HTMLDivElement>(null);
@@ -51,8 +51,8 @@ const Editor: React.FC<Props> = () => {
   const textRef = useRef<HTMLTextAreaElement | null>(null)
 
   useEffect(() => {
-    setShowDialog(!!session && (isMonologue && isNew));
-  }, [session, isMonologue, isNew])
+    setShowDialog(!!session && (isMonologue && (isNew || isEdit)));
+  }, [session, isMonologue, isNew, isEdit])
 
   useEffect(() => {
     if (!localStorage.getItem(KEY_NAME)) {

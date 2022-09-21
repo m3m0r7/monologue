@@ -5,11 +5,13 @@ import { GraphQLScalarType } from "graphql/type";
 import { Kind } from "graphql/language";
 import dayjs from "dayjs";
 import { updateEntry } from "@/graphql/resolvers/mutation/updateEntry";
+import { deleteEntries } from "@/graphql/resolvers/mutation/deleteEntries";
 
 export const resolvers = {
   Mutation: {
     addEntry,
     updateEntry,
+    deleteEntries,
   },
   Query: {
     getEntries,

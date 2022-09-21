@@ -25,7 +25,11 @@ export const addEntry: MutationResolvers['addEntry'] = async (
       },
     },
     include: {
-      tags: true,
+      tags: {
+        include: {
+          tag: true,
+        }
+      },
     },
   });
 };

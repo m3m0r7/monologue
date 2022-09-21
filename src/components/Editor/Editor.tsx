@@ -233,7 +233,7 @@ const Editor: React.FC<Props> = () => {
             </div>
             <div className={editorStyle.actionButtons}>
               <button type="button" className={editorStyle.draftButtonContainer} onClick={draft}>
-                <div className={editorStyle.draftButton}>
+                <div>
                   <span>Draft</span>
                 </div>
               </button>

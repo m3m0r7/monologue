@@ -9,14 +9,18 @@ export const updateEntry: MutationResolvers['updateEntry'] = async (
   info
 ) => {
   return await prisma.entry.update({
+    where: {
+      id: args.id
+    },
     data: {
       ...(args.title ? {title: args.title} : {}),
       ...(args.text ? {text: args.text} : {}),
       ...(args.eyecatch ? {eyecatch: args.eyecatch} : {}),
       tags: {
-        update: args.tags.map((tag) => ({
+        deleteMany: {},
+        create: args.tags.map((tag) => ({
           tag: {
-            update: {
+            create: {
               name: tag.name,
             },
           }
@@ -24,7 +28,11 @@ export const updateEntry: MutationResolvers['updateEntry'] = async (
       },
     },
     include: {
-      tags: true,
+      tags: {
+        include: {
+          tag: true,
+        }
+      },
     },
   });
 };

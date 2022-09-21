@@ -35,5 +35,6 @@ input TagInput {
 
 type Mutation {
   addEntry(title: String!, text: String!, eyecatch: String!, tags: [TagInput!]!): Entry!
-  updateEntry(title: String!, text: String!, eyecatch: String!, tags: [TagInput!]!): Entry!
+  updateEntry(id: Int!, title: String!, text: String!, eyecatch: String!, tags: [TagInput!]!): Entry!
+  deleteEntries(entryIds: [Int!]!): Boolean!
 }

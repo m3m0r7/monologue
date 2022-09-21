@@ -27,6 +27,7 @@ input ConditionalEntries {
 
 type Query {
   getEntries(conditionalEntries: ConditionalEntries): [Entry!]!
+  getEntry(id: Int!): Entry
 }
 
 input TagInput {

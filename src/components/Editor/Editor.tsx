@@ -12,12 +12,31 @@ import Dialog from "@/components/Dialog/Dialog";
 import { Tag } from "@/@types/Tag";
 import { useEscCancellation } from "@/hooks/useEscCancellation";
 import { gql } from "apollo-server-micro";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { Entry } from "@/@types/Entry";
 
 const ADD_ENTRY = gql`
-  mutation AddEntryInput($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
+  mutation AddEntry($title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
     addEntry(title: $title, text: $text, eyecatch: $eyecatch, tags: $tags) {
       id
+    }
+  }
+`
+
+const GET_ENTRY = gql`
+  query GetEntry($id: Int!) {
+    getEntry(id: $id) {
+      id
+      title
+      text
+      publishedAt
+      eyecatch
+      tags {
+        tag {
+          id
+          name
+        }
+      }
     }
   }
 `
@@ -35,10 +54,11 @@ type DraftCookieType = {
 const KEY_NAME = 'monologueDraft';
 
 const Editor: React.FC<Props> = () => {
+  const [getEntry] = useLazyQuery<{ getEntry: Entry } | undefined>(GET_ENTRY);
   const [addEntry, { data, loading, error }] = useMutation(ADD_ENTRY);
 
   const router = useRouter();
-  const { isMonologue, isNew, isEdit } = useURLParameter();
+  const { isMonologue, isNew, isEdit, id } = useURLParameter();
   const [tab, setTab] = useState<'plain' | 'preview'>('plain');
   const { data: session } = useSession();
   const bodyContainerRef = useRef<HTMLDivElement>(null);
@@ -48,25 +68,48 @@ const Editor: React.FC<Props> = () => {
   const [image, setImage] = useState<string | null>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
-  const textRef = useRef<HTMLTextAreaElement | null>(null)
+  const textRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     setShowDialog(!!session && (isMonologue && (isNew || isEdit)));
   }, [session, isMonologue, isNew, isEdit])
 
   useEffect(() => {
-    if (!localStorage.getItem(KEY_NAME)) {
-      return;
+    if (isNew) {
+      if (!localStorage.getItem(KEY_NAME)) {
+        return;
+      }
+      const data: DraftCookieType = JSON.parse(localStorage.getItem(KEY_NAME) ?? '{}');
+      if (titleRef.current) {
+        titleRef.current.value = data.title;
+      }
+      if (textRef.current) {
+        textRef.current.value = data.text;
+      }
+      setTags(data.tags);
+      setImage(data.eyecatch);
     }
-    const data: DraftCookieType = JSON.parse(localStorage.getItem(KEY_NAME) ?? '{}');
-    if (titleRef.current) {
-      titleRef.current.value = data.title;
+    if (isEdit && id) {
+      (async () => {
+        const { data, error } = await getEntry({
+          variables: {
+            id,
+          }
+        });
+        if (error || !data?.getEntry) {
+          return;
+        }
+
+        if (titleRef.current) {
+          titleRef.current.value = data.getEntry.title;
+        }
+        if (textRef.current) {
+          textRef.current.value = data.getEntry.text;
+        }
+        setTags(data.getEntry.tags?.map((tag) => tag.tag.name) ?? []);
+        setImage(data.getEntry.eyecatch ?? '');
+      })();
     }
-    if (textRef.current) {
-      textRef.current.value = data.text;
-    }
-    setTags(data.tags);
-    setImage(data.eyecatch)
   }, [])
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

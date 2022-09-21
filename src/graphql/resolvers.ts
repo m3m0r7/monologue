@@ -6,6 +6,7 @@ import { Kind } from "graphql/language";
 import dayjs from "dayjs";
 import { updateEntry } from "@/graphql/resolvers/mutation/updateEntry";
 import { deleteEntries } from "@/graphql/resolvers/mutation/deleteEntries";
+import { getEntry } from "@/graphql/resolvers/query/getEntry";
 
 export const resolvers = {
   Mutation: {
@@ -15,6 +16,7 @@ export const resolvers = {
   },
   Query: {
     getEntries,
+    getEntry,
   },
   DateTime: new GraphQLScalarType({
     name: 'DateTime',

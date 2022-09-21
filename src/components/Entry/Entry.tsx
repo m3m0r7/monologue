@@ -10,6 +10,7 @@ import { useURLParameter } from "@/hooks/useURLParameter";
 import { useEscCancellation } from "@/hooks/useEscCancellation";
 import ZoomImage from "@/components/Image/ZoomImage";
 import { Tag } from "@/@types/Tag";
+import { useSession } from "next-auth/react";
 
 type Props = {
   isOpened: boolean,
@@ -20,10 +21,16 @@ type Props = {
 
 const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) => {
   const router = useRouter();
+  const { data: session } = useSession();
 
-  const open = () => {
+  const expandEyecatch = () => {
     router.push(`#/monologue/${entry.id}/picture`, undefined, { shallow: true });
   };
+
+  const openEdit = () => {
+    router.push(`#/monologue/${entry.id}/edit`, undefined, { shallow: true });
+  }
+
   const close = () => {
     router.push(`#/monologue/${entry.id}`, undefined, { shallow: true });
   };
@@ -62,12 +69,12 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
         <div className={entryStyle.entryBody}>
           <div className={entryStyle.entryEyecatch} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
             <div className={entryStyle.entryActions}>
-              <div onClick={open}>
+              <div onClick={expandEyecatch}>
                 <i className="fa-solid fa-expand"></i>
               </div>
-              <div onClick={open}>
+              {session && <div onClick={openEdit}>
                 <i className="fa-solid fa-pen-to-square"></i>
-              </div>
+              </div>}
             </div>
           </div>
           <div className={entryStyle.divisor}></div>

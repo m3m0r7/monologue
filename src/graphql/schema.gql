@@ -33,13 +33,7 @@ input TagInput {
   name: String!
 }
 
-input AddEntryInput {
-  title: String!
-  text: String!
-  eyecatch: String!
-  tags: [TagInput!]!
-}
-
 type Mutation {
   addEntry(title: String!, text: String!, eyecatch: String!, tags: [TagInput!]!): Entry!
+  updateEntry(title: String!, text: String!, eyecatch: String!, tags: [TagInput!]!): Entry!
 }

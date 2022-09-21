@@ -11,6 +11,8 @@ import { useEscCancellation } from "@/hooks/useEscCancellation";
 import ZoomImage from "@/components/Image/ZoomImage";
 import { Tag } from "@/@types/Tag";
 import { useSession } from "next-auth/react";
+import { gql } from "apollo-server-micro";
+import { useMutation } from "@apollo/client";
 
 type Props = {
   isOpened: boolean,
@@ -19,9 +21,16 @@ type Props = {
   entry: Entry
 };
 
+const DELETE_ENTRIES = gql`
+  mutation DeleteEntries($entryIds: [Int!]!) {
+    deleteEntries(entryIds: $entryIds)
+  }
+`
+
 const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [deleteEntries] = useMutation<boolean>(DELETE_ENTRIES);
 
   const expandEyecatch = () => {
     router.push(`#/monologue/${entry.id}/picture`, undefined, { shallow: true });
@@ -49,6 +58,16 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
     router.push(`#/monologue/${entry.pager.next}`, undefined, { shallow: true });
   }
 
+  const deleteEntry = () => {
+    (async () => {
+      const result = await deleteEntries({
+          variables: {
+            entryIds: [entry.id],
+          }
+        });;
+    })();
+  }
+
   useEscCancellation(() => {
     if (!isOpened || isOpenedEyecatch) {
       return;
@@ -74,6 +93,9 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
               </div>
               {session && <div onClick={openEdit}>
                 <i className="fa-solid fa-pen-to-square"></i>
+              </div>}
+              {session && <div onClick={deleteEntry}>
+                <i className="fa-solid fa-trash"></i>
               </div>}
             </div>
           </div>

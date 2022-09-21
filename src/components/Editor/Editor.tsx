@@ -79,6 +79,7 @@ const Editor: React.FC<Props> = () => {
   const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
   const textRef = useRef<HTMLTextAreaElement | null>(null);
   const [ submitText, setSubmitText ] = useState('Publish');
+  const [ publishedAt, setPublishedAt ] = useState<number | null>(null);
 
   useEffect(() => {
     setShowDialog(!!session && (isMonologue && (isNew || isEdit)));
@@ -109,6 +110,7 @@ const Editor: React.FC<Props> = () => {
             }
             setTags(data.getEntry.tags?.map((tag) => tag.tag.name) ?? []);
             setImage(data.getEntry.eyecatch ?? '');
+            setPublishedAt(data.getEntry.publishedAt);
           })();
         }
         return;
@@ -203,6 +205,7 @@ const Editor: React.FC<Props> = () => {
       text: textRef.current?.value ?? '',
       tags,
       title: titleRef.current?.value ?? '',
+      publishedAt,
     }));
 
     setDialog({ ...dialog, draft: true });
@@ -268,7 +271,7 @@ const Editor: React.FC<Props> = () => {
             <div className={entryStyle.entryTitle}>
               <input type="text" placeholder="Enter a title..." className={editorStyle.entryTitleInput} defaultValue="" ref={titleRef} />
             </div>
-            <time className={entryStyle.entryDateTime}>{dayjs().format('ddd MMMM DD, YYYY')}</time>
+            <time className={entryStyle.entryDateTime}>{dayjs(publishedAt).format('ddd MMMM DD, YYYY')}</time>
             <ul className={entryStyle.entryTags}>
               {tags.map((tag: string, key) => <li key={key}>#{tag} <i className={`fa-solid fa-close`} onClick={() => removeTag(key)}></i></li>)}
               {/*<li>#Choose a tag</li>*/}

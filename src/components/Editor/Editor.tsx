@@ -271,7 +271,7 @@ const Editor: React.FC<Props> = () => {
             <div className={entryStyle.entryTitle}>
               <input type="text" placeholder="Enter a title..." className={editorStyle.entryTitleInput} defaultValue="" ref={titleRef} />
             </div>
-            <time className={entryStyle.entryDateTime}>{dayjs(publishedAt).format('ddd MMMM DD, YYYY')}</time>
+            <time className={entryStyle.entryDateTime}>{dayjs(publishedAt ?? undefined).format('ddd MMMM DD, YYYY')}</time>
             <ul className={entryStyle.entryTags}>
               {tags.map((tag: string, key) => <li key={key}>#{tag} <i className={`fa-solid fa-close`} onClick={() => removeTag(key)}></i></li>)}
               {/*<li>#Choose a tag</li>*/}
@@ -310,7 +310,7 @@ const Editor: React.FC<Props> = () => {
                   <span>Draft</span>
                 </div>
               </button>
-              <button type="button" className={editorStyle.publishButtonContainer} onClick={isEdit ? edit : publish}>
+              <button type="button" className={editorStyle.publishButtonContainer} onClick={isNew ? publish : edit}>
                 <div className={editorStyle.publishButton}>
                   <span>{submitText}</span>
                 </div>

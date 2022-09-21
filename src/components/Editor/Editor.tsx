@@ -23,6 +23,14 @@ const ADD_ENTRY = gql`
   }
 `
 
+const UPDATE_ENTRY = gql`
+  mutation AddEntry($id: Int!, $title: String!, $text: String!, $eyecatch: String!, $tags: [TagInput!]!) {
+    updateEntry(id: $id, title: $title, text: $text, eyecatch: $eyecatch, tags: $tags) {
+      id
+    }
+  }
+`
+
 const GET_ENTRY = gql`
   query GetEntry($id: Int!) {
     getEntry(id: $id) {
@@ -55,7 +63,8 @@ const KEY_NAME = 'monologueDraft';
 
 const Editor: React.FC<Props> = () => {
   const [getEntry] = useLazyQuery<{ getEntry: Entry } | undefined>(GET_ENTRY);
-  const [addEntry, { data, loading, error }] = useMutation(ADD_ENTRY);
+  const [addEntry] = useMutation(ADD_ENTRY);
+  const [updateEntry] = useMutation(UPDATE_ENTRY);
 
   const router = useRouter();
   const { isMonologue, isNew, isEdit, id } = useURLParameter();
@@ -69,17 +78,42 @@ const Editor: React.FC<Props> = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
   const textRef = useRef<HTMLTextAreaElement | null>(null);
+  const [ submitText, setSubmitText ] = useState('Publish');
 
   useEffect(() => {
     setShowDialog(!!session && (isMonologue && (isNew || isEdit)));
   }, [session, isMonologue, isNew, isEdit])
 
   useEffect(() => {
-    if (isNew) {
-      if (!localStorage.getItem(KEY_NAME)) {
+    if (isEdit) {
+      setSubmitText('Edit');
+    }
+    const keyName = `${KEY_NAME}${isEdit ? `.${id}` : ''}`;
+      if (!localStorage.getItem(keyName)) {
+        if (isEdit && id) {
+          (async () => {
+            const { data, error } = await getEntry({
+              variables: {
+                id,
+              }
+            });
+            if (error || ! data?.getEntry) {
+              return;
+            }
+
+            if (titleRef.current) {
+              titleRef.current.value = data.getEntry.title;
+            }
+            if (textRef.current) {
+              textRef.current.value = data.getEntry.text;
+            }
+            setTags(data.getEntry.tags?.map((tag) => tag.tag.name) ?? []);
+            setImage(data.getEntry.eyecatch ?? '');
+          })();
+        }
         return;
       }
-      const data: DraftCookieType = JSON.parse(localStorage.getItem(KEY_NAME) ?? '{}');
+      const data: DraftCookieType = JSON.parse(localStorage.getItem(keyName) ?? '{}');
       if (titleRef.current) {
         titleRef.current.value = data.title;
       }
@@ -88,28 +122,6 @@ const Editor: React.FC<Props> = () => {
       }
       setTags(data.tags);
       setImage(data.eyecatch);
-    }
-    if (isEdit && id) {
-      (async () => {
-        const { data, error } = await getEntry({
-          variables: {
-            id,
-          }
-        });
-        if (error || !data?.getEntry) {
-          return;
-        }
-
-        if (titleRef.current) {
-          titleRef.current.value = data.getEntry.title;
-        }
-        if (textRef.current) {
-          textRef.current.value = data.getEntry.text;
-        }
-        setTags(data.getEntry.tags?.map((tag) => tag.tag.name) ?? []);
-        setImage(data.getEntry.eyecatch ?? '');
-      })();
-    }
   }, [])
 
   const handle = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -185,7 +197,8 @@ const Editor: React.FC<Props> = () => {
   }
 
   const draft = () => {
-    localStorage.setItem(KEY_NAME, JSON.stringify({
+    const keyName = `${KEY_NAME}${isEdit ? `.${id}` : ''}`;
+    localStorage.setItem(keyName, JSON.stringify({
       eyecatch: image,
       text: textRef.current?.value ?? '',
       tags,
@@ -199,6 +212,20 @@ const Editor: React.FC<Props> = () => {
     localStorage.removeItem(KEY_NAME);
     addEntry({
       variables: {
+        title: titleRef.current?.value ?? '',
+        text: textRef.current?.value ?? '',
+        eyecatch: image,
+        tags: tags.map((tag) => ({ name: tag })),
+      }
+    });
+  }
+
+  const edit = () => {
+    const keyName = `${KEY_NAME}.${id}`;
+    localStorage.removeItem(keyName);
+    updateEntry({
+      variables: {
+        id: id,
         title: titleRef.current?.value ?? '',
         text: textRef.current?.value ?? '',
         eyecatch: image,
@@ -280,9 +307,9 @@ const Editor: React.FC<Props> = () => {
                   <span>Draft</span>
                 </div>
               </button>
-              <button type="button" className={editorStyle.publishButtonContainer} onClick={publish}>
+              <button type="button" className={editorStyle.publishButtonContainer} onClick={isEdit ? edit : publish}>
                 <div className={editorStyle.publishButton}>
-                  <span>Publish</span>
+                  <span>{submitText}</span>
                 </div>
               </button>
             </div>

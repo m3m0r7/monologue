@@ -15,6 +15,7 @@ import { searchAtom } from "@/contexts/Atom";
 import { useAtom } from "jotai";
 import dayjs, { Dayjs } from "dayjs";
 import { useURLParameter } from "@/hooks/useURLParameter";
+import { useRouter } from "next/router";
 
 const GET_ENTRIES = gql`
   query GetEntries($conditionalEntries: ConditionalEntries) {
@@ -37,6 +38,7 @@ const GET_ENTRIES = gql`
 type GalleryList = Record<string, Entry[]>
 
 export default () => {
+  const router = useRouter();
   const [conditionalEntries] = useAtom(searchAtom);
   const [ loadEntries ] = useLazyQuery<{ getEntries: Entry[] } | undefined>(GET_ENTRIES, {
     variables: {
@@ -67,7 +69,7 @@ export default () => {
       });
       setEntries(galleryList);
     })();
-  }, [conditionalEntries]);
+  }, [conditionalEntries, router.asPath]);
 
   const hasEntry = Object.keys(entries).length > 0;
 

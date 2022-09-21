@@ -73,10 +73,10 @@ const Editor: React.FC<Props> = ({ entry, isOpened = false }) => {
     const keyName = `${KEY_NAME}${entry ? `.${entry.id}` : ''}`;
     const data: DraftCookieType = JSON.parse(localStorage.getItem(keyName) ?? '{}');
     if (titleRef.current) {
-      titleRef.current.value = data.title ?? entry?.title;
+      titleRef.current.value = data.title ?? entry?.title ?? '';
     }
     if (textRef.current) {
-      textRef.current.value = data.text ?? entry?.text;
+      textRef.current.value = data.text ?? entry?.text ?? '';
     }
     setTags(data.tags ?? (entry?.tags ?? []).map((tag) => tag.tag.name));
     setImage(data.eyecatch ?? entry?.eyecatch ?? '');
@@ -291,7 +291,7 @@ const Editor: React.FC<Props> = ({ entry, isOpened = false }) => {
     <Dialog isOpened={dialog.published} type="success" title="Published" onClose={() => setDialog({ ...dialog, published: false })}>
       An entry was published.
     </Dialog>
-    <Dialog isOpened={dialog.edit} type="success" title="Published" onClose={() => setDialog({ ...dialog, edit: false })}>
+    <Dialog isOpened={dialog.edit} type="success" title="Edit" onClose={() => setDialog({ ...dialog, edit: false })}>
       An entry was edit.
     </Dialog>
   </>

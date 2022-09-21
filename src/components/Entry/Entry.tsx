@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { gql } from "apollo-server-micro";
 import { useMutation } from "@apollo/client";
 import Editor from "@/components/Editor/Editor";
+import Dialog from "@/components/Dialog/Dialog";
 
 type Props = {
   isOpened: boolean,
@@ -32,6 +33,7 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
   const { data: session } = useSession();
   const [deleteEntries] = useMutation<boolean>(DELETE_ENTRIES);
   const { isMonologue, isNew, isEdit, id } = useURLParameter();
+  const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
 
   const closeEntryDialog = () => {
     return router.push(`/`, undefined, { shallow: true });
@@ -70,7 +72,14 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
             entryIds: [entry.id],
           }
         });
+
+      setDialog({ ...dialog, delete: true });
     })();
+  }
+
+  const closeDeleteDialog = () => {
+    setDialog({ ...dialog, delete: false });
+    closeEntryDialog();
   }
 
   useEscCancellation(() => {
@@ -135,6 +144,10 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
     />
 
     <Editor entry={entry} isOpened={entry.id === id && isEdit} />
+
+    <Dialog isOpened={dialog.delete} type="success" title="Edit" onClose={closeDeleteDialog}>
+      An entry was deleted.
+    </Dialog>
   </>
 }
 

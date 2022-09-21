@@ -61,8 +61,13 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, onClose, entry }) 
         </div>
         <div className={entryStyle.entryBody}>
           <div className={entryStyle.entryEyecatch} style={{ backgroundImage: `url(${entry.eyecatch})` }}>
-            <div className={entryStyle.entryEyecatchExpand} onClick={open}>
-              <i className="fa-solid fa-expand"></i>
+            <div className={entryStyle.entryActions}>
+              <div onClick={open}>
+                <i className="fa-solid fa-expand"></i>
+              </div>
+              <div onClick={open}>
+                <i className="fa-solid fa-pen-to-square"></i>
+              </div>
             </div>
           </div>
           <div className={entryStyle.divisor}></div>

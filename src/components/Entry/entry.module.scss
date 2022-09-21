@@ -86,24 +86,28 @@
   }
 }
 
-.entryEyecatchExpand {
-  font-size: 24px;
+.entryActions {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #FFFFFF;
-  width: 32px;
-  height: 32px;
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   right: 10px;
   bottom: 10px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  border-radius: 4px;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  gap: 10px;
+  div {
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
   }
 }
 

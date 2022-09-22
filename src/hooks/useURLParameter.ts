@@ -9,6 +9,7 @@ type URLParameterType = {
   isTag: boolean;
   isEdit: boolean;
   id: number | null;
+  tagName: string | null;
 }
 
 export const useURLParameter = (): URLParameterType => {
@@ -24,6 +25,7 @@ export const useURLParameter = (): URLParameterType => {
         isNew: false,
         isEdit: false,
         id: null,
+        tagName: null,
       };
     }
     const hashValue = router.asPath.substring(pathIndex + 1)
@@ -41,6 +43,7 @@ export const useURLParameter = (): URLParameterType => {
       isNew: !id && hashValue[1] === 'new',
       isEdit: hashValue[2] === 'edit',
       id,
+      tagName: !id && hashValue[0] === 'tag' ? hashValue[1] : null,
     };
   }, [router.asPath]);
 }

@@ -39,7 +39,8 @@ type GalleryList = Record<string, Entry[]>
 
 export default () => {
   const router = useRouter();
-  const [conditionalEntries] = useAtom(searchAtom);
+  const { tagName } = useURLParameter();
+  const [conditionalEntries, setConditionalEntries] = useAtom(searchAtom);
   const [ loadEntries ] = useLazyQuery<{ getEntries: Entry[] } | undefined>(GET_ENTRIES, {
     variables: {
       conditionalEntries,
@@ -50,7 +51,18 @@ export default () => {
   const { isNew } = useURLParameter();
   useEffect(() => {
     setOpenEditor(isNew);
-  }, [isNew])
+  }, [isNew]);
+
+  useEffect(() => {
+    if (!tagName) {
+      return;
+    }
+
+    setConditionalEntries({
+      ...conditionalEntries,
+      tags: [tagName],
+    });
+  }, [tagName])
 
   /**
    * The routing will re-render entry components then it will break fade-in animations.

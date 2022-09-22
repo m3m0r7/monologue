@@ -22,7 +22,8 @@ type TagsOnEntries {
 input ConditionalEntries {
   sort: String
   keyword: String
-  entryIds: [Int]
+  entryIds: [Int!]
+  tags: [String!]
 }
 
 type Query {

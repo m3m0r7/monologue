@@ -30,6 +30,15 @@ export const getEntries: QueryResolvers['getEntries'] = async (
             .filter((id): id is NonNullable<typeof id> => id !== null),
         },
       } : {}),
+      tags: {
+        some: {
+          tag: {
+            name: {
+              in: args.conditionalEntries?.tags ?? [],
+            },
+          },
+        },
+      },
     },
     orderBy: {
       ...(args.conditionalEntries?.sort === 'Recently' ? { publishedAt: "desc" } : {}),

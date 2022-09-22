@@ -82,6 +82,10 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
     closeEntryDialog();
   }
 
+  const openTag = (tag: Tag) => {
+    router.push(`#/tag/${tag.name}`, undefined, { shallow: true });
+  }
+
   useEscCancellation(() => {
     if (isEdit || !isOpened || isOpenedEyecatch) {
       return;
@@ -118,7 +122,7 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
             <div className={entryStyle.entryTitle}>{entry.title}</div>
             <time className={entryStyle.entryDateTime}>{dayjs(entry.publishedAt).format('ddd MMMM DD, YYYY')}</time>
             <ul className={entryStyle.entryTags}>
-              {(entry.tags ?? []).map((tag) => <li key={tag.tag.id}>#{tag.tag.name}</li>)}
+              {(entry.tags ?? []).map((tag) => <li key={tag.tag.id} onClick={() => openTag(tag.tag)}>#{tag.tag.name}</li>)}
             </ul>
             <div className={entryStyle.entryText}>
               <EntryContents>

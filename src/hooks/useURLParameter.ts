@@ -6,6 +6,7 @@ type URLParameterType = {
   isEyecatch: boolean;
   isSignIn: boolean;
   isNew: boolean;
+  isTag: boolean;
   isEdit: boolean;
   id: number | null;
 }
@@ -19,6 +20,7 @@ export const useURLParameter = (): URLParameterType => {
         isMonologue: false,
         isEyecatch: false,
         isSignIn: false,
+        isTag: false,
         isNew: false,
         isEdit: false,
         id: null,
@@ -32,6 +34,7 @@ export const useURLParameter = (): URLParameterType => {
     const id = hashValue[1] && hashValue[1].match(/^[0-9]+$/) ? parseInt(hashValue[1]) : null;
 
     return {
+      isTag: hashValue[0] === 'tag',
       isMonologue: hashValue[0] === 'monologue',
       isEyecatch: hashValue[2] === 'picture',
       isSignIn: hashValue[1] === 'signIn',

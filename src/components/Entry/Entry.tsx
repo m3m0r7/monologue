@@ -12,7 +12,7 @@ import ZoomImage from "@/components/Image/ZoomImage";
 import { Tag } from "@/@types/Tag";
 import { useSession } from "next-auth/react";
 import { gql } from "apollo-server-micro";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import Editor from "@/components/Editor/Editor";
 import Dialog from "@/components/Dialog/Dialog";
 
@@ -21,6 +21,24 @@ type Props = {
   isOpenedEyecatch: boolean,
   entry: Entry
 };
+
+const GET_ENTRY = gql`
+  query GetEntries($id: Int!) {
+    getEntry(id: $id) {
+      id
+      title
+      text
+      eyecatch
+      publishedAt
+      tags {
+        tag {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
 
 const DELETE_ENTRIES = gql`
   mutation DeleteEntries($entryIds: [Int!]!) {
@@ -32,8 +50,19 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [deleteEntries] = useMutation<boolean>(DELETE_ENTRIES);
+  const [getEntry] = useLazyQuery<Entry[]>(GET_ENTRY);
   const { isMonologue, isNew, isEdit, id } = useURLParameter();
   const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    (async () => {
+      const { data, error } = await getEntry({
+        variables: {
+          id: entry.id,
+        },
+      });
+    })();
+  }, [entry]);
 
   const closeEntryDialog = () => {
     return router.push(`/`, undefined, { shallow: true });

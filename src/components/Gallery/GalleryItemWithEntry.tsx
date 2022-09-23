@@ -15,22 +15,12 @@ const GalleryItemWithEntry: React.FC<Props> = ({ entry }) => {
   const { id, isMonologue, isEyecatch } = useURLParameter();
   const [ opened, setOpened ] = useState({ entry: false, eyecatch: false });
 
-  useEffect(() => {
-    setOpened({
-      entry: isMonologue && id === entry.id,
-      eyecatch: isEyecatch && id === entry.id,
-    });
-  }, [entry, isMonologue, isEyecatch, id]);
-
   const openEntryDialog = () => {
     router.push(`#/monologue/${entry.id}`, undefined, { shallow: true });
   };
   return <div className={galleryStyle.galleryItemContainer}>
     <GalleryItem onOpen={openEntryDialog} entry={entry} />
-    <Entry
-      isOpened={opened.entry}
-      entry={entry}
-      isOpenedEyecatch={opened.eyecatch} />
+    <Entry entry={entry} />
   </div>
 }
 

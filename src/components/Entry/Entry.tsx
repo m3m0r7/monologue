@@ -17,8 +17,6 @@ import Editor from "@/components/Editor/Editor";
 import Dialog from "@/components/Dialog/Dialog";
 
 type Props = {
-  isOpened: boolean,
-  isOpenedEyecatch: boolean,
   entry: Entry
 };
 
@@ -50,23 +48,38 @@ const DELETE_ENTRIES = gql`
   }
 `
 
-const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
+const Entry: React.FC<Props> = ({  entry: defaultEntry }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [deleteEntries] = useMutation<boolean>(DELETE_ENTRIES);
-  const [getEntry] = useLazyQuery<Entry[]>(GET_ENTRY);
-  const { isMonologue, isNew, isEdit, id } = useURLParameter();
+  const [getEntry] = useLazyQuery<{ getEntry: Entry }>(GET_ENTRY);
+  const { isMonologue, isNew, isEyecatch, isEdit, id } = useURLParameter();
   const [ dialog, setDialog ] = useState<Record<string, boolean>>({});
+  const [entry, setEntry] = useState(defaultEntry);
+
+  const [opened, setOpened] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    setOpened({
+      isOpened: isMonologue && id === entry.id,
+      isOpenedEyecatch: isEyecatch && id === entry.id,
+    });
+  }, [isMonologue, isEyecatch, id]);
 
   useEffect(() => {
     (async () => {
       const { data, error } = await getEntry({
         variables: {
-          id: entry.id,
+          id: defaultEntry.id,
         },
       });
+      if (!data?.getEntry) {
+        return;
+      }
+      setEntry(data?.getEntry);
     })();
-  }, [entry]);
+
+  }, [id]);
 
   const closeEntryDialog = () => {
     return router.push(`/`, undefined, { shallow: true });
@@ -120,14 +133,14 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
   }
 
   useEscCancellation(() => {
-    if (isEdit || !isOpened || isOpenedEyecatch) {
+    if (isEdit || !opened.isOpened || opened.isOpenedEyecatch) {
       return;
     }
     closeEntryDialog();
-  }, [isEdit, isOpened, isOpenedEyecatch]);
+  }, [isEdit, opened.isOpened, opened.isOpenedEyecatch]);
 
   return <>
-    <div className={`${entryStyle.entryContainer} ${isOpened ? '' : 'hidden'}`}>
+    <div className={`${entryStyle.entryContainer} ${opened.isOpened ? '' : 'hidden'}`}>
       <div className={`${entryStyle.entryPrev} ${entry.pager?.prev ? '' : entryStyle.inactive}`} onClick={prev}>
         <i className="fa-solid fa-chevron-left"></i>
       </div>
@@ -176,7 +189,7 @@ const Entry: React.FC<Props> = ({ isOpened, isOpenedEyecatch, entry }) => {
         { name: calculateBehindDays(dayjs(), dayjs(entry.publishedAt)) }
       ]}
       imagePath={entry.eyecatch}
-      isOpened={isOpenedEyecatch}
+      isOpened={opened.isOpenedEyecatch}
       onClose={close}
     />
 

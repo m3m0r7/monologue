@@ -3,7 +3,7 @@ import { addEntry } from "@/graphql/resolvers/mutation/addEntry";
 import { getEntries } from "@/graphql/resolvers/query/getEntries";
 import { GraphQLScalarType } from "graphql/type";
 import { Kind } from "graphql/language";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { updateEntry } from "@/graphql/resolvers/mutation/updateEntry";
 import { deleteEntries } from "@/graphql/resolvers/mutation/deleteEntries";
 import { getEntry } from "@/graphql/resolvers/query/getEntry";
@@ -22,7 +22,7 @@ export const resolvers = {
     name: 'DateTime',
     description: 'Date custom scalar type',
     serialize(value: any) {
-      return value.getTime();
+      return value.toString();
     },
     parseValue(value: any) {
       return dayjs(value);

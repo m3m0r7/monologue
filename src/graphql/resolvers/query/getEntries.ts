@@ -44,10 +44,16 @@ export const getEntries: QueryResolvers['getEntries'] = async (
         }
       } : {}),
     },
-    orderBy: {
-      ...(args.conditionalEntries?.sort === 'Recently' ? { publishedAt: "desc" } : {}),
-      ...(args.conditionalEntries?.sort === 'Oldest' ? { publishedAt: "asc" } : {}),
-    },
+    orderBy: [
+      {
+        ...(args.conditionalEntries?.sort === 'Recently' || !args.conditionalEntries?.sort ? { publishedAt: "desc" } : {}),
+        ...(args.conditionalEntries?.sort === 'Oldest' ? { publishedAt: "asc" } : {}),
+      },
+      {
+        ...(args.conditionalEntries?.sort === 'Recently' || !args.conditionalEntries?.sort ? { id: "desc" } : {}),
+        ...(args.conditionalEntries?.sort === 'Oldest' ? { id: "asc" } : {}),
+      },
+    ],
   });
 
   return entries.map<NullableEntry>(entry => {

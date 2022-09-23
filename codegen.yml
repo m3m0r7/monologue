@@ -7,7 +7,9 @@ generates:
       - typescript-resolvers
     config:
       mapperTypeSuffix: Model
+      useIndexSignature: true
       mappers:
-        Entry: '@prisma/client/index.d#Entry'
-        Tag: '@prisma/client/index.d#Tag'
-        TagsOnEntries: '@prisma/client/index.d#TagsOnEntries'
+        Entry: '@/@types/Entry#NullableEntry'
+        Tag: '@/@types/Tag#NullableTag'
+        TagsOnEntries: '@/@types/TagsOnEntries#NullableTagsOnEntries'
+        Pager: '@/@types/Pager#NullablePager'

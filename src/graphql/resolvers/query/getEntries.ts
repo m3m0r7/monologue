@@ -1,5 +1,7 @@
 import { prisma } from '@/graphql/context';
 import { QueryResolvers } from "@/@types/resolvers-types";
+import { Entry, NullableEntry } from "@/@types/Entry";
+import dayjs from "dayjs";
 
 export const getEntries: QueryResolvers['getEntries'] = async (
   parent,
@@ -7,7 +9,7 @@ export const getEntries: QueryResolvers['getEntries'] = async (
   context,
   info
 ) => {
-  return await prisma.entry.findMany({
+  const entries = await prisma.entry.findMany({
     include: {
       tags: {
         include: {
@@ -46,5 +48,12 @@ export const getEntries: QueryResolvers['getEntries'] = async (
       ...(args.conditionalEntries?.sort === 'Recently' ? { publishedAt: "desc" } : {}),
       ...(args.conditionalEntries?.sort === 'Oldest' ? { publishedAt: "asc" } : {}),
     },
+  });
+
+  return entries.map<NullableEntry>(entry => {
+    return {
+      ...entry,
+      publishedAt: dayjs(entry.publishedAt),
+    };
   });
 };

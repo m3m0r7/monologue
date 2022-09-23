@@ -13,7 +13,7 @@ type Props = {
 const GalleryItem: React.FC<Props> = ({ onOpen, entry }) => {
   return <div className={galleryStyle.galleryItem} style={{ backgroundImage: `url(${entry.eyecatch})` }} onClick={onOpen}>
     <div className={galleryStyle.galleryPostDatetime}>
-      {calculateBehindDays(dayjs(), dayjs(entry.date))}
+      {calculateBehindDays(dayjs(), dayjs(entry.publishedAt))}
     </div>
     <div className={galleryStyle.galleryTitle}>{entry.title}</div>
   </div>

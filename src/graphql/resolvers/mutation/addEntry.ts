@@ -8,7 +8,7 @@ export const addEntry: MutationResolvers['addEntry'] = async (
   context,
   info
 ) => {
-  return await prisma.entry.create({
+  const entry = await prisma.entry.create({
     data: {
       title: args.title,
       text: args.text,
@@ -32,4 +32,9 @@ export const addEntry: MutationResolvers['addEntry'] = async (
       },
     },
   });
+
+  return {
+    ...entry,
+    publishedAt: dayjs(entry.publishedAt),
+  };
 };

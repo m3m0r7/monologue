@@ -30,6 +30,10 @@ const GET_ENTRY = gql`
       text
       eyecatch
       publishedAt
+      pager {
+        next
+        prev
+      }
       tags {
         tag {
           id

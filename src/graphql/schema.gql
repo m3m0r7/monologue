@@ -1,5 +1,10 @@
 scalar DateTime
 
+type Pager {
+  next: Int
+  prev: Int
+}
+
 type Entry {
   id: Int!
   title: String!
@@ -7,6 +12,7 @@ type Entry {
   eyecatch: String!
   publishedAt: DateTime!
   tags: [TagsOnEntries!]
+  pager: Pager
 }
 
 type Tag {

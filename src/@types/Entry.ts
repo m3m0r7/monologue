@@ -1,16 +1,16 @@
-import { Dayjs } from "dayjs";
-import { Tag } from "@/@types/Tag";
 import { TagsOnEntries } from "@/@types/TagsOnEntries";
+import { Pager } from "@/@types/Pager";
+import { Nullable } from "@/@types/Nullable";
+import { Dayjs } from "dayjs";
 
 export type Entry = {
   id: number;
-  title: string;
-  text: string;
+  title?: string;
+  text?: string;
   eyecatch?: string;
-  publishedAt: number;
+  publishedAt?: Dayjs;
   tags?: TagsOnEntries[],
-  pager?: {
-    next?: string,
-    prev?: string,
-  },
+  pager?: Pager,
 }
+
+export type NullableEntry = Nullable<Entry>;

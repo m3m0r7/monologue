@@ -8,7 +8,7 @@ export const updateEntry: MutationResolvers['updateEntry'] = async (
   context,
   info
 ) => {
-  return await prisma.entry.update({
+  const entry = await prisma.entry.update({
     where: {
       id: args.id
     },
@@ -35,4 +35,9 @@ export const updateEntry: MutationResolvers['updateEntry'] = async (
       },
     },
   });
+
+  return {
+    ...entry,
+    publishedAt: dayjs(entry.publishedAt),
+  };
 };
